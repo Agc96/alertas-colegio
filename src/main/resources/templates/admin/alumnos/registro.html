@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sistema de Alertas</title>
+</head>
+<body>
+    <div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="registroLabel" aria-hidden="true" th:fragment="registroModal">
+        <form class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registroLabel">Crear o editar un alumno</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="registroDni">DNI:</label>
+                        <input type="text" id="registroDni" class="form-control" placeholder="DNI del alumno">
+                    </div>
+                    <div class="form-group">
+                        <label for="registroNombres">Nombres:</label>
+                        <input type="text" id="registroNombres" class="form-control" placeholder="Primer y segundo nombre del usuario">
+                    </div>
+                    <div class="form-group">
+                        <label for="registroApellidos">Apellidos:</label>
+                        <input type="text" id="registroApellidos" class="form-control" placeholder="Apellido paterno y materno del usuario">
+                    </div>
+                    <div class="form-group">
+                        <label for="registroFechaNac">Fecha de nacimiento:</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" type="submit">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

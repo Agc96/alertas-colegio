@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="util/header :: header">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Sistema de Alertas</title>
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul th:replace="util/sidebar :: sidebar"></ul>
+        <!-- Content wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- Topbar -->
+                <nav th:replace="util/topbar :: topbar"></nav>
+                <!-- Contenido de la página -->
+                <div class="container-fluid mt-4">
+                    <!-- Título de la página -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Registro de asistencia</h1>
+                    </div>
+                    <!-- Formulario -->
+                    <form>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="fecha">Fecha:</label>
+                                <input type="date" id="fecha" class="form-control"/>
+                            </div>
+                            <!-- div class="form-group col">
+                                <label for="aula">Aula:</label>
+                                <select id="aula" class="form-control">
+                                    <option value="">Seleccione el aula</option>
+                                    <!-/- Carga programática -/->
+                                </select>
+                            </div -->
+                        </div>
+                        <!-- Lista de asistentes -->
+                    </form>
+                </div>
+                <!-- Fin del contenido de la página -->
+            </div>
+            <!-- Footer -->
+            <footer th:replace="util/footer :: footer"></footer>
+        </div>
+    </div>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    <!-- Scripts de JavaScript -->
+    <script src="/js/vendor/sb-admin-2.min.js"></script>
+</body>
+</html>

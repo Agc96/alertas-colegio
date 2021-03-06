@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="util/header :: header">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Sistema de Alertas</title>
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul th:replace="util/sidebar :: sidebar"></ul>
+        <!-- Content wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- Topbar -->
+                <nav th:replace="util/topbar :: topbar"></nav>
+                <!-- Contenido de la página -->
+                <div class="container-fluid mt-4">
+                    <!-- Título de la página -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Mantenimiento de usuarios</h1>
+                        <a href="#registroModal" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal">
+                            <i class="fas fa-plus fa-sm text-white-50"></i> Nuevo usuario
+                        </a>
+                    </div>
+                    <!-- Tabla con la lista de usuarios -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Lista de usuarios registrados</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="usuarioDataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre de usuario</th>
+                                            <th>DNI</th>
+                                            <th>Nombres</th>
+                                            <th>Apellidos</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>admin</td>
+                                            <td>00000000</td>
+                                            <td>Administrador</td>
+                                            <td>Principal</td>
+                                            <td class="text-right">
+                                                <button class="btn btn-sm btn-info" data-toggle="tooltip" data-original-title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Eliminar">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>docente</td>
+                                            <td>12345678</td>
+                                            <td>Docente</td>
+                                            <td>Principal</td>
+                                            <td class="text-right">
+                                                <button class="btn btn-sm btn-info" data-toggle="tooltip" data-original-title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Eliminar">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>padre</td>
+                                            <td>23456789</td>
+                                            <td>Padre de Familia</td>
+                                            <td>Principal</td>
+                                            <td class="text-right">
+                                                <button class="btn btn-sm btn-info" data-toggle="tooltip" data-original-title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Eliminar">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fin del contenido de la página -->
+            </div>
+            <!-- Footer -->
+            <footer th:replace="util/footer :: footer"></footer>
+        </div>
+    </div>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    <!-- Modal de creación de un usuario -->
+    <div th:replace="admin/usuarios/registro :: registroModal"></div>
+    <!-- Scripts de JavaScript -->
+    <script src="/js/vendor/sb-admin-2.min.js"></script>
+</body>
+</html>
