@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 public final class Preconditions {
 

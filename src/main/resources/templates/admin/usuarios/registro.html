@@ -7,13 +7,21 @@
 </head>
 <body>
     <div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="registroLabel" aria-hidden="true" th:fragment="registroModal">
-        <form class="modal-dialog" role="document">
+        <form class="modal-dialog" role="document" id="registroForm">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="registroLabel">Crear o editar un usuario</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
+                    <div class="form-group">
+                        <label for="registroNombreUsuario">Nombre de usuario:</label>
+                        <input type="text" id="registroNombreUsuario" class="form-control" placeholder="Nombre de usuario para el inicio de sesión"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="registroContrasenia">Contraseña:</label>
+                        <input type="password" id="registroContrasenia" class="form-control" placeholder="Contraseña del usuario"/>
+                    </div>
                     <div class="form-group">
                         <label for="registroDni">DNI:</label>
                         <input type="text" id="registroDni" class="form-control" placeholder="DNI del usuario"/>
@@ -27,21 +35,11 @@
                         <input type="text" id="registroApellidos" class="form-control" placeholder="Apellido paterno y materno del usuario"/>
                     </div>
                     <div class="form-group">
-                        <label for="registroNombreUsuario">Nombre de usuario:</label>
-                        <input type="text" id="registroNombreUsuario" class="form-control" placeholder="Nombre de usuario para el inicio de sesión"/>
-                    </div>
-                    <div class="form-group">
                         <label for="registroTipoUsuario">Tipo de usuario:</label>
                         <select id="registroTipoUsuario" class="form-control">
                             <option value="">Seleccione un tipo de usuario</option>
-                            <option value="1">Administrador</option>
-                            <option value="2">Docente</option>
-                            <option value="3">Padre de familia</option>
+                            <option th:each="tipoUsuario : ${tiposUsuario}" th:value="${tipoUsuario.id}" th:text="${tipoUsuario.nombre}"></option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="registroContrasenia">Contaseña:</label>
-                        <input type="password" id="registroContrasenia" class="form-control" placeholder="Contraseña del usuario"/>
                     </div>
                 </div>
                 <div class="modal-footer">

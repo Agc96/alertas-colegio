@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  * @param <T>
  */
 public class ResultadoDto<T> extends BaseDto {

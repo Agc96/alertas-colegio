@@ -6,28 +6,44 @@
     <title>Sistema de Alertas</title>
 </head>
 <body>
-    <div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="registroLabel" aria-hidden="true" th:fragment="registroModal">
-        <form class="modal-dialog" role="document">
+    <div class="modal fade" id="registroModal" tabindex="-1" role="dialog"
+         aria-labelledby="registroLabel" aria-hidden="true" th:fragment="registroModal">
+        <form class="modal-dialog" role="document" id="registroForm">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="registroLabel">Crear o editar un alumno</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="registroDni">DNI:</label>
-                        <input type="text" id="registroDni" class="form-control" placeholder="DNI del alumno">
+                        <input type="text" id="registroDni" class="form-control"
+                               placeholder="DNI del alumno">
                     </div>
                     <div class="form-group">
                         <label for="registroNombres">Nombres:</label>
-                        <input type="text" id="registroNombres" class="form-control" placeholder="Primer y segundo nombre del usuario">
+                        <input type="text" id="registroNombres" class="form-control"
+                               placeholder="Primer y segundo nombre del alumno">
                     </div>
                     <div class="form-group">
                         <label for="registroApellidos">Apellidos:</label>
-                        <input type="text" id="registroApellidos" class="form-control" placeholder="Apellido paterno y materno del usuario">
+                        <input type="text" id="registroApellidos" class="form-control"
+                               placeholder="Apellido paterno y materno del alumno">
                     </div>
                     <div class="form-group">
                         <label for="registroFechaNac">Fecha de nacimiento:</label>
+                        <input type="text" id="registroFechaNac" class="form-control dateInput"
+                               placeholder="Fecha en el formato dd/mm/aaaa"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="registroPadre">Padre de familia a cargo:</label>
+                        <select id="registroPadre" class="form-control">
+                            <option value="">Seleccione un padre de familia</option>
+                            <option th:each="padre : ${padres}" th:value="${padre.idUsuario}"
+                                    th:text="${padre.nombres} + ' ' + ${padre.apellidos}"></option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">

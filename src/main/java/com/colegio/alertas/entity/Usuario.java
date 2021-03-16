@@ -4,12 +4,13 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 @Entity
 @Table(name = "sa_usuario")
@@ -18,9 +19,9 @@ public class Usuario implements Serializable {
     private static final long serialVersionUID = -353359569255609942L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
-    private Long idUsuario;
+    private Integer idUsuario;
 
     @Column(name = "nombre_usuario", nullable = false, unique = true)
     private String nombreUsuario;
@@ -37,13 +38,13 @@ public class Usuario implements Serializable {
     @Column(nullable = false)
     private String apellidos;
 
-    @Column(name = "tipo_usuario", nullable = false)
+    @Column(name = "id_tipo_usuario", nullable = false)
     private Integer idTipoUsuario;
 
-    public Long getIdUsuario() {
+    public Integer getIdUsuario() {
         return idUsuario;
     }
-    public void setIdUsuario(Long idUsuario) {
+    public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 

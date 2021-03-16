@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  * @param <T>
  */
 public class FiltroDto<T> implements Serializable {

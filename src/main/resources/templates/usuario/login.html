@@ -1,26 +1,31 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="util/header :: header">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Sistema de Alertas</title>
-    <!-- Fuentes y estilos CSS de esta plantilla -->
-    <link href="css/fontawesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
 </head>
 <body class="bg-gradient-primary">
     <!-- Contenido de la página -->
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-6 col-lg-8 col-md-9">
+                <!-- Mensaje de error -->
+                <div class="alert alert-danger alert-dismissible fade show mt-5" role="alert" th:if="${mostrarError}">
+                    <strong>Error:</strong> No se pudo iniciar sesión, verifique que haya ingresado correctamente su usuario y contraseña.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- Inicio de sesión -->
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-5">
+                        <!-- Título -->
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Inicio de sesión</h1>
                         </div>
-                        <form class="user" method="post" th:action="@{/login}">
+                        <!-- Formulario de inicio de sesión -->
+                        <form class="user" method="post" th:action="@{/springLogin}">
                             <div class="form-group">
                                 <input type="text" name="username" class="form-control form-control-user" id="nombreUsuario" placeholder="Nombre de usuario">
                             </div>
@@ -34,5 +39,8 @@
             </div>
         </div>
     </div>
+    <!-- Scripts de JavaScript -->
+    <script src="/js/vendor/sb-admin-2.min.js"></script>
+    <script src="/js/usuario/login.js"></script>
 </body>
 </html>

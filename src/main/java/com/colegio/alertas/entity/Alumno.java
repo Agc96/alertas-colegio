@@ -5,14 +5,17 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 @Entity
 @Table(name = "sa_alumno")
@@ -21,9 +24,9 @@ public class Alumno implements Serializable {
     private static final long serialVersionUID = -966188715511988132L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_alumno")
-    private Long idAlumno;
+    private Integer idAlumno;
 
     @Column(nullable = false)
     private String dni;
@@ -38,10 +41,14 @@ public class Alumno implements Serializable {
     @Column(name = "fecha_nacimiento")
     private Date fechaNacimiento;
 
-    public Long getIdAlumno() {
+    @ManyToOne
+    @JoinColumn(name = "id_padre", nullable = false)
+    private Usuario padre;
+
+    public Integer getIdAlumno() {
         return idAlumno;
     }
-    public void setIdAlumno(Long idAlumno) {
+    public void setIdAlumno(Integer idAlumno) {
         this.idAlumno = idAlumno;
     }
 
@@ -71,6 +78,13 @@ public class Alumno implements Serializable {
     }
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public Usuario getPadre() {
+        return padre;
+    }
+    public void setPadre(Usuario padre) {
+        this.padre = padre;
     }
 
 }

@@ -2,26 +2,23 @@ package com.colegio.alertas.controller;
 
 import com.colegio.alertas.dto.AlumnoDto;
 import com.colegio.alertas.dto.in.BusquedaDto;
-import com.colegio.alertas.dto.in.FiltroDto;
+import com.colegio.alertas.dto.out.BaseDto;
 import com.colegio.alertas.dto.out.ResultadoDto;
-import com.colegio.alertas.entity.Alumno;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.colegio.alertas.service.AlumnoService;
+import com.colegio.alertas.service.UsuarioService;
+import com.colegio.alertas.util.AppException;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.colegio.alertas.repository.AlumnoDao;
-import com.colegio.alertas.util.Preconditions;
-import java.util.ArrayList;
-import java.util.List;
-import org.springframework.data.domain.PageRequest;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 @Controller("")
 public class AlumnoController {
@@ -29,54 +26,60 @@ public class AlumnoController {
     private static final Logger LOG = Logger.getLogger(AlumnoController.class.getName());
 
     @Autowired
-    private AlumnoDao alumnoDao;
+    private AlumnoService alumnoService;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @GetMapping("/admin/alumnos")
-    public String lista() {
+    public String lista(Model model) {
+        model.addAttribute("padres", usuarioService.listarPadres());
         return "admin/alumnos/lista";
     }
 
-    @PostMapping("/admin/alumnos/busqueda")
-    public ResultadoDto<AlumnoDto> busqueda(@RequestBody BusquedaDto busqueda) {
+    @PostMapping("/admin/alumnos/buscar")
+    @ResponseBody
+    public ResultadoDto<AlumnoDto> buscar(BusquedaDto busqueda) {
         ResultadoDto<AlumnoDto> response = new ResultadoDto<>();
         try {
-            List<Alumno> alumnos = alumnoDao.filtrarAlumnos(busqueda.getTerm(),
-                    PageRequest.of(busqueda.getPage(), busqueda.getSize()));
-            if (!Preconditions.isEmpty(alumnos)) {
-                response.setTotal(0);
-            } else {
-                response.setTotal(alumnos.size());
-                response.setLista(new ArrayList<>(alumnos.size()));
-                for (Alumno alumno : alumnos) {
-                    AlumnoDto dto = new AlumnoDto();
-                    dto.setIdAlumno(alumno.getIdAlumno());
-                    dto.setNombres(alumno.getNombres());
-                    dto.setDni(alumno.getDni());
-                    dto.setApellidos(alumno.getApellidos());
-                    dto.setFechaNacimiento(null); // TODO
-                    response.getLista().add(dto);
-                }
+            response.setTotal(alumnoService.contar(busqueda));
+            if (response.getTotal() > 0) {
+                response.setLista(alumnoService.buscar(busqueda));
             }
         } catch (Exception ex) {
             String msg = "Hubo un error al buscar los alumnos. " + ex.getMessage();
             LOG.log(Level.SEVERE, msg, ex);
             response.setError(true, msg);
         }
-        return null;
+        return response;
     }
 
-    @PostMapping("/admin/alumnos/filtrar")
+    @PostMapping("/admin/alumnos/registrar")
     @ResponseBody
-    public ResultadoDto<AlumnoDto> filtrar(@RequestBody FiltroDto<AlumnoDto> request) {
-        ResultadoDto<AlumnoDto> response = new ResultadoDto<>();
+    public BaseDto registrar(AlumnoDto request) {
+        BaseDto response = new BaseDto();
         try {
-            response.setTotal(alumnoDao.contarFiltro(request.getFiltro()).intValue());
-            if (response.getTotal() > 0) {
-                response.setLista(alumnoDao.listarFiltro(request.getFiltro(),
-                        request.getFirstResult(), request.getMaxResults()));
+            if (request.getIdAlumno() == null) {
+                alumnoService.registrar(request);
+            } else {
+                alumnoService.editar(request);
             }
-        } catch (Exception ex) {
-            String msg = "Hubo un error al filtrar los alumnos. " + ex.getMessage();
+        } catch (AppException ex) {
+            String msg = "No se pudo registrar el alumno. " + ex.getMessage();
+            LOG.log(Level.SEVERE, msg, ex);
+            response.setError(true, msg);
+        }
+        return response;
+    }
+
+    @PostMapping("/admin/alumnos/eliminar")
+    @ResponseBody
+    public BaseDto eliminar(Integer idAlumno) {
+        BaseDto response = new BaseDto();
+        try {
+            alumnoService.eliminar(idAlumno);
+        } catch (AppException ex) {
+            String msg = "No se pudo eliminar el alumno. " + ex.getMessage();
             LOG.log(Level.SEVERE, msg, ex);
             response.setError(true, msg);
         }

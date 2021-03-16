@@ -2,7 +2,7 @@ package com.colegio.alertas.config;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 public class UserServiceConfig {
 

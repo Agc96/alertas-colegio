@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 public class BaseDto implements Serializable {
 
@@ -12,6 +12,10 @@ public class BaseDto implements Serializable {
 
     private Boolean error;
     private String mensaje;
+
+    public BaseDto() {
+        error = false;
+    }
 
     public Boolean getError() {
         return error;

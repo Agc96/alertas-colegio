@@ -6,23 +6,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 @Controller
 public class AsistenciaController {
 
-    @GetMapping("/docente/asistencia")
-    public String listar() {
+    @GetMapping("/aulas/{idAula}/asistencia")
+    public String listar(@PathVariable Integer idAula) {
         return "docente/asistencia/lista";
     }
 
-    @GetMapping("/docente/asistencia/nuevo")
-    public String nuevo() {
+    @GetMapping("/aulas/{idAula}/asistencia/nuevo")
+    public String nuevo(@PathVariable Integer idAula) {
         return "docente/asistencia/registro";
     }
 
-    @GetMapping("/docente/asistencia/{idAsistencia}")
-    public String editar(@PathVariable Long idAsistencia) {
+    @GetMapping("/aulas/{idAula}/asistencia/{idAsistencia}")
+    public String editar(@PathVariable Integer idAula, @PathVariable Integer idAsistencia) {
         return "docente/asistencia/registro";
     }
 

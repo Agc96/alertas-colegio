@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Sistema de Alertas</title>
+</head>
+<body>
+    <nav class="paginationWrapper d-none" aria-label="Paginado de lista de usuarios registrados" th:fragment="pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="#">
+                    <i class="fas fa-arrow-left"></i>
+                    <span class="d-sm-inline d-none">Anterior</span>
+                </a>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">Página <strong class="numPaginado">1</strong> de <strong class="totalPaginado">3</strong></span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">
+                    <span class="d-sm-inline d-none">Siguiente</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</body>
+</html>

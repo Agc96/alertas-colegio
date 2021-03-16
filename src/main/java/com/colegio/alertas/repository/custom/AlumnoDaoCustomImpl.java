@@ -13,7 +13,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 public class AlumnoDaoCustomImpl implements AlumnoDaoCustom {
 
@@ -33,7 +33,7 @@ public class AlumnoDaoCustomImpl implements AlumnoDaoCustom {
         List<AlumnoDto> alumnosDto = new ArrayList<>(alumnosBD.size());
         for (Object[] alumnoBD : alumnosBD) {
             AlumnoDto alumnoDto = new AlumnoDto();
-            alumnoDto.setIdAlumno(QueryUtils.toLong(alumnoBD[0]));
+            alumnoDto.setIdAlumno(QueryUtils.toInteger(alumnoBD[0]));
             alumnoDto.setNombres(QueryUtils.toString(alumnoBD[1]));
             alumnoDto.setApellidos(QueryUtils.toString(alumnoBD[2]));
             alumnoDto.setFechaNacimiento(QueryUtils.toString(alumnoBD[3]));
@@ -66,7 +66,7 @@ public class AlumnoDaoCustomImpl implements AlumnoDaoCustom {
             parameters.put("apellidos", filtro.getApellidos());
         }
         // Formar el query
-        return QueryUtils.createQuery(sql.toString(), parameters, entityManager);
+        return QueryUtils.createNativeQuery(sql.toString(), parameters, entityManager);
     }
 
 }

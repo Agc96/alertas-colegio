@@ -4,12 +4,13 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 @Entity
 @Table(name = "sa_grado")
@@ -18,7 +19,7 @@ public class Grado implements Serializable {
     private static final long serialVersionUID = -8022130146769104255L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_grado")
     private Integer idGrado;
 

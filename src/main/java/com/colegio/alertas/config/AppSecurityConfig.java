@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 @Configuration
 @EnableWebSecurity
@@ -29,23 +29,21 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/css/*", "/fonts/*", "/img/*", "/js/*").permitAll()
+                .antMatchers("/css/**", "/fonts/**", "/img/**", "/js/**").permitAll()
                 .antMatchers("/login", "/logout").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/login")
+                .loginProcessingUrl("/springLogin")
                 .defaultSuccessUrl("/")
                 .and()
                 .logout()
-                .logoutUrl("/logout")
+                .logoutUrl("/springLogout")
                 .permitAll();
-                /*.antMatchers("/").permitAll()
-                .antMatchers("/login*").permitAll()
-                .anyRequest().authenticated();*/
     }
 
     @Bean

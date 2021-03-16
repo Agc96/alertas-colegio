@@ -2,7 +2,7 @@ package com.colegio.alertas.util.enums;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 public enum TipoAsistencia {
 
@@ -27,8 +27,10 @@ public enum TipoAsistencia {
     }
 
     public static TipoAsistencia find(Integer id) {
-        for (TipoAsistencia tipoAsistencia : TipoAsistencia.values()) {
-            if (tipoAsistencia.getId() == id) return tipoAsistencia;
+        if (id != null) {
+            for (TipoAsistencia tipoAsistencia : TipoAsistencia.values()) {
+                if (tipoAsistencia.getId() == id) return tipoAsistencia;
+            }
         }
         return null;
     }

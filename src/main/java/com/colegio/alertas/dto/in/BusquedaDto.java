@@ -4,35 +4,35 @@ import java.io.Serializable;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 public class BusquedaDto implements Serializable {
 
     private static final long serialVersionUID = -5678667590862601117L;
 
-    private String term;
-    private Integer page;
-    private Integer size;
+    private String termino;
+    private Integer numPagina;
+    private Integer numResultados;
 
-    public String getTerm() {
-        return term;
+    public String getTermino() {
+        return termino;
     }
-    public void setTerm(String term) {
-        this.term = term;
-    }
-
-    public Integer getPage() {
-        return page;
-    }
-    public void setPage(Integer page) {
-        this.page = page;
+    public void setTermino(String termino) {
+        this.termino = termino;
     }
 
-    public Integer getSize() {
-        return size;
+    public Integer getNumPagina() {
+        return numPagina;
     }
-    public void setSize(Integer size) {
-        this.size = size;
+    public void setNumPagina(Integer numPagina) {
+        this.numPagina = numPagina;
+    }
+
+    public Integer getNumResultados() {
+        return numResultados;
+    }
+    public void setNumResultados(Integer numResultados) {
+        this.numResultados = numResultados;
     }
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 @Entity
 @Table(name = "sa_aula")
@@ -23,18 +24,19 @@ public class Aula implements Serializable {
     private static final long serialVersionUID = 1318429886862230436L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_aula")
-    private Long idAula;
+    private Integer idAula;
 
-    @Column(nullable = false)
-    private Integer anio;
+    @ManyToOne
+    @JoinColumn(name = "id_anio", nullable = false)
+    private Anio anio;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "id_grado", nullable = false)
     private Grado grado;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "id_docente", nullable = false)
     private Usuario docente;
 
@@ -44,17 +46,17 @@ public class Aula implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "id_aula"))
     private List<Alumno> alumnos;
 
-    public Long getIdAula() {
+    public Integer getIdAula() {
         return idAula;
     }
-    public void setIdAula(Long idAula) {
+    public void setIdAula(Integer idAula) {
         this.idAula = idAula;
     }
 
-    public Integer getAnio() {
+    public Anio getAnio() {
         return anio;
     }
-    public void setAnio(Integer anio) {
+    public void setAnio(Anio anio) {
         this.anio = anio;
     }
 

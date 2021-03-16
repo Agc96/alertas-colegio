@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 public class UsuarioDto implements Serializable {
 
@@ -15,6 +15,7 @@ public class UsuarioDto implements Serializable {
     private String nombres;
     private String apellidos;
     private String nombreUsuario;
+    private String contrasenia;
     private Integer idTipoUsuario;
     private String nombreTipoUsuario;
 
@@ -51,6 +52,13 @@ public class UsuarioDto implements Serializable {
     }
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
     }
 
     public Integer getIdTipoUsuario() {

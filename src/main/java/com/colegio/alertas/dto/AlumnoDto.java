@@ -4,22 +4,24 @@ import java.io.Serializable;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 public class AlumnoDto implements Serializable {
 
     private static final long serialVersionUID = -3080929470016734775L;
 
-    private Long idAlumno;
+    private Integer idAlumno;
     private String dni;
     private String nombres;
     private String apellidos;
     private String fechaNacimiento;
+    private Integer idPadre;
+    private String nombrePadre;
 
-    public Long getIdAlumno() {
+    public Integer getIdAlumno() {
         return idAlumno;
     }
-    public void setIdAlumno(Long idAlumno) {
+    public void setIdAlumno(Integer idAlumno) {
         this.idAlumno = idAlumno;
     }
 
@@ -49,6 +51,20 @@ public class AlumnoDto implements Serializable {
     }
     public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public Integer getIdPadre() {
+        return idPadre;
+    }
+    public void setIdPadre(Integer idPadre) {
+        this.idPadre = idPadre;
+    }
+
+    public String getNombrePadre() {
+        return nombrePadre;
+    }
+    public void setNombrePadre(String nombrePadre) {
+        this.nombrePadre = nombrePadre;
     }
 
 }
