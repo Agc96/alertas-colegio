@@ -1,7 +1,7 @@
 package com.colegio.alertas.entity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,9 +42,9 @@ public class Aula implements Serializable {
 
     @ManyToMany
     @JoinTable(name = "sa_aula_alumno",
-            joinColumns = @JoinColumn(name = "id_alumno"),
-            inverseJoinColumns = @JoinColumn(name = "id_aula"))
-    private List<Alumno> alumnos;
+            joinColumns = @JoinColumn(name = "id_aula"),
+            inverseJoinColumns = @JoinColumn(name = "id_alumno"))
+    private Set<Alumno> alumnos;
 
     public Integer getIdAula() {
         return idAula;
@@ -74,10 +74,10 @@ public class Aula implements Serializable {
         this.docente = docente;
     }
 
-    public List<Alumno> getAlumnos() {
+    public Set<Alumno> getAlumnos() {
         return alumnos;
     }
-    public void setAlumnos(List<Alumno> alumnos) {
+    public void setAlumnos(Set<Alumno> alumnos) {
         this.alumnos = alumnos;
     }
 

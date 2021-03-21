@@ -1,9 +1,8 @@
 /* global jQuery, Mustache */
 jQuery(function ($) {
 
-    var template = $('#resultadoTemplate').html();
+    var template = $('#usuarioTemplate').html();
     var query = null;
-    var maxPages = 0;
     var $card = null;
 
     /* Formulario de búsqueda */
@@ -12,48 +11,27 @@ jQuery(function ($) {
         event.preventDefault();
         query = {
             termino: $('#inputBusqueda').val(),
-            numPagina: 0,
+            indicePagina: 0,
             numResultados: 6
         };
-        enviarFiltros();
+        buscarUsuarios();
     });
 
-    function enviarFiltros() {
-        // Limpiar los resultados de la búsqueda
-        $('#listaBusqueda').children().remove();
-        $('#resumenBusqueda').text('Espere...');
-        $('.paginationWrapper').addClass('d-none');
-        // Enviar la petición AJAX
-        sendRequest('/admin/usuarios/buscar', query, function (response) {
-            if (response.total > 0) {
-                // Actualizar resultados de la búsqueda
-                $('#resumenBusqueda').html('Se encontraron <strong>' + response.total + '</strong> resultados.');
-                $.each(response.lista, function (_, usuario) {
-                    $('#listaBusqueda').append(Mustache.render(template, usuario));
-                });
-                // Actualizar paginado
-                $('.paginationWrapper').removeClass('d-none');
-                maxPages = Math.ceil(response.total / query.numResultados);
-                $('.numPaginado').text(query.numPagina + 1);
-                $('.totalPaginado').text(maxPages);
-            } else {
-                // Actualizar resultados de la búsqueda
-                $('#resumenBusqueda').text('No se encontraron resultados.');
-            }
-        });
+    function buscarUsuarios() {
+        sendSearchRequest('/admin/usuarios/buscar', query, template);
     }
 
-    $('.paginaAnterior').click(function () {
-        if (query.numPagina > 0) {
-            query.numPagina--;
-            enviarFiltros();
+    $('#paginaAnterior').click(function () {
+        if (query.indicePagina > 0) {
+            query.indicePagina--;
+            buscarUsuarios();
         }
     });
 
-    $('.paginaSiguiente').click(function () {
-        if (query.numPagina < maxPages) {
-            query.numPagina++;
-            enviarFiltros();
+    $('#paginaSiguiente').click(function () {
+        if (query.indicePagina < getIndiceMax()) {
+            query.indicePagina++;
+            buscarUsuarios();
         }
     });
 
@@ -63,15 +41,16 @@ jQuery(function ($) {
         $card = $(event.relatedTarget).parents('.card');
         if ($card.length) {
             // Colocar los datos del registro para editar
-            $('#registroNombreUsuario').val($card.find('.busquedaNombreUsuario').text());
+            $('#registroNombreUsuario').val($card.find('.busquedaUserName').text());
             $('#registroDni').val($card.find('.busquedaDni').text());
             $('#registroNombres').val($card.find('.busquedaNombres').text());
             $('#registroApellidos').val($card.find('.busquedaApellidos').text());
-            $('#registroTipoUsuario').val($card.find('.busquedaTipoUsuario').data('id'));
+            $('#registroRol').val($card.find('.busquedaRol').data('id'));
             // Desactivar edición de nombre de usuario y contraseña
             $('#registroNombreUsuario, #registroContrasenia').prop('disabled', true);
         } else {
             // Limpiar los inputs para registrar
+            $card = null;
             $('#registroModal').find('input, select').val(null);
             // Activar edición de nombre de usuario y contraseña
             $('#registroNombreUsuario, #registroContrasenia').prop('disabled', false);
@@ -80,20 +59,24 @@ jQuery(function ($) {
 
     $('#registroForm').submit(function (event) {
         event.preventDefault();
-        sendRequest('/admin/usuarios/registrar', {
-            idUsuario: $card.data('id') || null,
+        // Obtener la URL a la cual enviar los datos
+        var url = $card ? '/admin/usuarios/editar' : '/admin/usuarios/crear';
+        // Obtener los datos a enviar
+        var data = {
             nombreUsuario: $('#registroNombreUsuario').val(),
             contrasenia: $('#registroContrasenia').val(),
             dni: $('#registroDni').val(),
             nombres: $('#registroNombres').val(),
             apellidos: $('#registroApellidos').val(),
-            idTipoUsuario: $('#registroTipoUsuario').val()
-        }, function () {
+            idRol: $('#registroRol').val()
+        };
+        // Enviar la petición AJAX
+        sendRequest(url, data, function () {
             // Cerrar el modal y mostrar mensaje de éxito
-            $('#registroModal').modal('hide');
+            $('#registroModal').modal('hide').find('input, select').val(null);
             showSuccessMessage('Usuario guardado correctamente.');
             // Volver a cargar los resultados de la búsqueda
-            enviarFiltros();
+            buscarUsuarios();
         });
     });
 
@@ -101,14 +84,15 @@ jQuery(function ($) {
 
     $('#listaBusqueda').on('click', '.eliminarRegistro', function (event) {
         if (confirm('¿Está seguro(a) de eliminar este usuario?')) {
+            // Enviar la petición AJAX
             sendRequest('/admin/usuarios/eliminar', {
-                idUsuario: $(event.target).parents('.card').data('id')
+                nombreUsuario: $(event.target).parents('.card').find('.busquedaUserName').text()
             }, function () {
                 // Mostrar mensaje de éxito
                 showSuccessMessage('Usuario eliminado correctamente.');
                 // Volver a cargar los resultados de la búsqueda
-                enviarFiltros();
-            });
+                buscarUsuarios();
+            }, true);
         }
     });
 

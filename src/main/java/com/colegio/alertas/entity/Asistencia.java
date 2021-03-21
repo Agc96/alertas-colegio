@@ -1,14 +1,18 @@
 package com.colegio.alertas.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,14 +37,8 @@ public class Asistencia implements Serializable {
     private Aula aula;
 
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private Date fecha;
-
-    @ManyToOne
-    @JoinColumn(name = "id_alumno", nullable = false)
-    private Alumno alumno;
-
-    @Column(name = "id_tipo_asistencia", nullable = false)
-    private Integer idTipoAsistencia;
 
     public Integer getIdAsistencia() {
         return idAsistencia;
@@ -61,20 +59,6 @@ public class Asistencia implements Serializable {
     }
     public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    public Alumno getAlumno() {
-        return alumno;
-    }
-    public void setAlumno(Alumno alumno) {
-        this.alumno = alumno;
-    }
-
-    public Integer getIdTipoAsistencia() {
-        return idTipoAsistencia;
-    }
-    public void setIdTipoAsistencia(Integer idTipoAsistencia) {
-        this.idTipoAsistencia = idTipoAsistencia;
     }
 
 }

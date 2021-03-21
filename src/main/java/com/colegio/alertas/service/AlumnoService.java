@@ -1,7 +1,8 @@
 package com.colegio.alertas.service;
 
 import com.colegio.alertas.dto.AlumnoDto;
-import com.colegio.alertas.dto.in.BusquedaDto;
+import com.colegio.alertas.dto.BusquedaAulaDto;
+import com.colegio.alertas.dto.BusquedaDto;
 import com.colegio.alertas.entity.Alumno;
 import com.colegio.alertas.entity.Usuario;
 import com.colegio.alertas.repository.AlumnoRepository;
@@ -10,7 +11,6 @@ import com.colegio.alertas.util.AppException;
 import com.colegio.alertas.util.DateUtils;
 import com.colegio.alertas.util.Preconditions;
 import com.colegio.alertas.util.QueryUtils;
-import com.colegio.alertas.util.enums.TipoUsuario;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 @Service
 public class AlumnoService {
@@ -48,10 +48,8 @@ public class AlumnoService {
                 dto.setApellidos(alumno.getApellidos());
                 dto.setFechaNacimiento(DateUtils.format(alumno.getFechaNacimiento()));
                 Usuario padre = alumno.getPadre();
-                if (padre != null) {
-                    dto.setIdPadre(padre.getIdUsuario());
-                    dto.setNombrePadre(padre.getNombres() + " " + padre.getApellidos());
-                }
+                dto.setNombreUsuarioPadre(padre.getNombreUsuario());
+                dto.setNombreCompletoPadre(padre.getNombres() + " " + padre.getApellidos());
                 listaDto.add(dto);
             }
             return listaDto;
@@ -59,56 +57,58 @@ public class AlumnoService {
         return Collections.EMPTY_LIST;
     }
 
-    public void registrar(AlumnoDto dto) throws AppException {
-        // Verificar los datos ingresados
-        Date fechaNacimiento = DateUtils.parse(dto.getFechaNacimiento());
-        if (fechaNacimiento == null) {
-            throw new AppException("La fecha de nacimiento ingresada no es válida.");
-        }
-        Usuario padre = usuarioRepository.findByIdUsuario(dto.getIdPadre());
-        if (padre == null) {
-            throw new AppException("El padre de familia seleccionado no existe.");
-        }
-        // Crear el registro y guardarlo en la base de datos
+    public void guardar(AlumnoDto dto) throws AppException {
         Alumno alumno = new Alumno();
-        alumno.setDni(dto.getDni());
-        alumno.setNombres(dto.getNombres());
-        alumno.setApellidos(dto.getApellidos());
-        alumno.setFechaNacimiento(fechaNacimiento);
-        alumno.setPadre(padre);
-        alumnoRepository.save(alumno);
-    }
-
-    public void editar(AlumnoDto dto) throws AppException {
-        // Verificar los datos ingresados
-        Alumno alumno = alumnoRepository.findByIdAlumno(dto.getIdAlumno());
-        if (alumno == null) {
-            throw new AppException("El alumno ingresado no existe.");
+        // Validar e ingresar el ID del alumno
+        Integer idAlumno = dto.getIdAlumno();
+        if (idAlumno != null) {
+            alumno = alumnoRepository.findByIdAlumno(idAlumno);
+            if (alumno == null) {
+                throw new AppException("El alumno ingresado no existe.");
+            }
         }
+        // Validar e ingresar el DNI del alumno
+        String dni = dto.getDni();
+        if (Preconditions.isEmpty(dni)) {
+            throw new AppException("Debe ingresar el DNI del alumno.");
+        }
+        if (!Preconditions.isValidDni(dni)) {
+            throw new AppException("El DNI debe tener exactamente 8 dígitos.");
+        }
+        alumno.setDni(dni);
+        // Validar e ingresar los nombres del alumno
+        String nombres = dto.getNombres();
+        if (Preconditions.isEmpty(nombres)) {
+            throw new AppException("Debe ingresar los nombres del alumno.");
+        }
+        alumno.setNombres(nombres);
+        // Validar e ingresar los apellidos del alumno
+        String apellidos = dto.getApellidos();
+        if (Preconditions.isEmpty(apellidos)) {
+            throw new AppException("Debe ingresar los apellidos del alumno.");
+        }
+        alumno.setApellidos(apellidos);
+        // Validar e ingresar la fecha de nacimiento del alumno
         Date fechaNacimiento = DateUtils.parse(dto.getFechaNacimiento());
         if (fechaNacimiento == null) {
             throw new AppException("La fecha de nacimiento ingresada no es válida.");
         }
-        Usuario padre = usuarioRepository.findByIdUsuario(dto.getIdPadre());
+        alumno.setFechaNacimiento(fechaNacimiento);
+        // Validar e ingresar el padre de familia del alumno
+        Usuario padre = usuarioRepository.findByNombreUsuario(dto.getNombreUsuarioPadre());
         if (padre == null) {
             throw new AppException("El padre de familia seleccionado no existe.");
         }
-        // Actualizar el registro y guardarlo en la base de datos
-        alumno.setDni(dto.getDni());
-        alumno.setNombres(dto.getNombres());
-        alumno.setApellidos(dto.getApellidos());
-        alumno.setFechaNacimiento(fechaNacimiento);
         alumno.setPadre(padre);
+        // Guardar el alumno
         alumnoRepository.save(alumno);
     }
 
     public void eliminar(Integer idAlumno) throws AppException {
-        // Verificar los datos ingresados
         Alumno alumno = alumnoRepository.findByIdAlumno(idAlumno);
         if (alumno == null) {
             throw new AppException("El alumno ingresado no existe.");
         }
-        // Eliminar el registro
         alumnoRepository.delete(alumno);
     }
 

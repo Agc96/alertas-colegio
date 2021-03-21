@@ -17,68 +17,53 @@
                 <!-- Contenido de la página -->
                 <div class="container-fluid mt-4">
                     <!-- Título de la página -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Registrar un aula</h1>
-                    </div>
+                    <h1 class="h3 mb-4 text-gray-800">Registrar un aula</h1>
                     <!-- Formulario -->
                     <div class="row">
-                        <div class="form-group col-sm-3">
-                            <label for="anio">Año:</label>
-                            <select id="anio" class="form-control">
+                        <div class="form-group col-lg-3 col-sm-6">
+                            <label for="registroAnio">Año:</label>
+                            <select id="registroAnio" class="form-control">
                                 <option value="">Seleccione un año</option>
-                                <option th:each="anio : ${anios}" th:value="${anio.idAnio}" th:text="${anio.idAnio}"></option>
+                                <option th:each="anio : ${anios}" th:value="${anio.idAnio}"
+                                        th:text="${anio.idAnio}"></option>
                             </select>
                         </div>
-                        <div class="form-group col-sm-3">
-                            <label for="grado">Grado:</label>
-                            <select id="grado" class="form-control">
+                        <div class="form-group col-lg-3 col-sm-6">
+                            <label for="registroGrado">Grado:</label>
+                            <select id="registroGrado" class="form-control">
                                 <option value="">Seleccione un grado</option>
-                                <option th:each="grado : ${grados}" th:value="${grado.idGrado}" th:text="${grado.nombre}"></option>
+                                <option th:each="grado : ${grados}" th:value="${grado.idGrado}"
+                                        th:text="${grado.nombre}"></option>
                             </select>
                         </div>
-                        <div class="form-group col-sm-6">
-                            <label for="docente">Docente:</label>
-                            <select id="docente" class="form-control">
+                        <div class="form-group col-lg-6">
+                            <label for="registroDocente">Docente:</label>
+                            <select id="registroDocente" class="form-control">
                                 <option value="">Seleccione un docente</option>
-                                <option value="1">Zacarías Flores del Campo</option>
-                                <option value="1">Armando Casas y Flores</option>
+                                <option th:each="docente : ${docentes}" th:value="${docente.nombreUsuario}"
+                                        th:text="${docente.nombres} + ' ' + ${docente.apellidos}"></option>
                             </select>
                         </div>
                     </div>
+                    <!-- Formulario de búsqueda -->
                     <!-- Lista de alumnos -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Lista de alumnos</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="listaDataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>DNI</th>
-                                            <th>Nombre completo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="alumno1" />
-                                                    <label class="custom-control-label" for="alumno1"></label>
-                                                </div>
-                                            </td>
-                                            <td>12345678</td>
-                                            <td>Juan Luis Pérez Cárdenas</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                    <h4 class="my-2">Lista de alumnos registrados</h4>
+                    <form id="formBusqueda" class="navbar-search my-3">
+                        <div class="input-group">
+                            <input type="text" id="inputBusqueda" class="form-control bg-white" aria-label="Buscar" placeholder="Buscar por DNI, nombres o apellidos..."/>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit"><i class="fas fa-search fa-sm"></i></button>
                             </div>
                         </div>
-                    </div>
+                    </form>
+                    <div id="resumenBusqueda" class="mb-3">Espere...</div>
+                    <div id="listaBusqueda" class="row"></div>
+                    <!-- Paginado -->
+                    <nav th:replace="util/pagination :: pagination"></nav>
                     <!-- Botones -->
                     <div class="text-center">
-                        <button class="btn btn-primary">Guardar</button>
+                        <input type="hidden" id="idAula" th:value="${idAula}"/>
+                        <button class="btn btn-primary" id="btnGuardar">Guardar</button>
                         <a href="/admin/aulas" class="btn btn-secondary">Cancelar</a>
                     </div>
                 </div>
@@ -92,5 +77,9 @@
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
     <!-- Scripts de JavaScript -->
     <script src="/js/vendor/sb-admin-2.min.js"></script>
+    <script src="/js/vendor/mustache.min.js"></script>
+    <script src="/js/utilidades.js"></script>
+    <script src="/js/admin/aulas/registro.js"></script>
+    <script th:replace="admin/aulas/resultadoAlumno :: template"></script>
 </body>
 </html>

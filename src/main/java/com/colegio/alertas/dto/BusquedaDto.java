@@ -1,17 +1,15 @@
-package com.colegio.alertas.dto.in;
-
-import java.io.Serializable;
+package com.colegio.alertas.dto;
 
 /**
  *
  * @author Sistema de Alertas
  */
-public class BusquedaDto implements Serializable {
+public class BusquedaDto extends BaseDto {
 
     private static final long serialVersionUID = -5678667590862601117L;
 
     private String termino;
-    private Integer numPagina;
+    private Integer indicePagina;
     private Integer numResultados;
 
     public String getTermino() {
@@ -21,11 +19,11 @@ public class BusquedaDto implements Serializable {
         this.termino = termino;
     }
 
-    public Integer getNumPagina() {
-        return numPagina;
+    public Integer getIndicePagina() {
+        return indicePagina;
     }
-    public void setNumPagina(Integer numPagina) {
-        this.numPagina = numPagina;
+    public void setIndicePagina(Integer indicePagina) {
+        this.indicePagina = indicePagina;
     }
 
     public Integer getNumResultados() {

@@ -1,6 +1,6 @@
 package com.colegio.alertas.util;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -21,12 +21,16 @@ public final class Preconditions {
         return array == null || array.length == 0;
     }
 
-    public static boolean isEmpty(List<?> list) {
+    public static boolean isEmpty(Collection<?> list) {
         return list == null || list.isEmpty();
     }
 
     public static boolean isEmpty(Map<?, ?> map) {
         return map == null || map.isEmpty();
+    }
+
+    public static boolean isValidDni(String dni) {
+        return !isEmpty(dni) && dni.matches("\\d+") && dni.length() == 8;
     }
 
 }

@@ -6,22 +6,25 @@
     <title>Sistema de Alertas</title>
 </head>
 <body>
-    <nav class="paginationWrapper d-none" aria-label="Paginado de lista de usuarios registrados" th:fragment="pagination">
+    <nav class="d-none" id="paginationWrapper" aria-label="Paginado de lista de usuarios registrados"
+         th:fragment="pagination">
         <ul class="pagination justify-content-center">
             <li class="page-item">
-                <a class="page-link" href="#">
+                <button class="page-link" id="paginaAnterior">
                     <i class="fas fa-arrow-left"></i>
                     <span class="d-sm-inline d-none">Anterior</span>
-                </a>
+                </button>
             </li>
             <li class="page-item disabled">
-                <span class="page-link">Página <strong class="numPaginado">1</strong> de <strong class="totalPaginado">3</strong></span>
+                <span class="page-link">
+                    Página <strong id="numPaginado">1</strong> de <strong id="totalPaginado">3</strong>
+                </span>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">
+                <button class="page-link" id="paginaSiguiente">
                     <span class="d-sm-inline d-none">Siguiente</span>
                     <i class="fas fa-arrow-right"></i>
-                </a>
+                </button>
             </li>
         </ul>
     </nav>

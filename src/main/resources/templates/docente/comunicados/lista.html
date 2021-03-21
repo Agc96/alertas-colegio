@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="util/header :: header">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Sistema de Alertas</title>
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul th:replace="util/sidebar :: sidebar"></ul>
+        <!-- Content wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- Topbar -->
+                <nav th:replace="util/topbar :: topbar"></nav>
+                <!-- Contenido de la página -->
+                <div class="container-fluid mt-4">
+                    <!-- Título de la página -->
+                    <div class="row align-items-center mb-4">
+                        <div class="col-lg mb-lg-0 mb-2">
+                            <h1 class="h3 mb-2 text-gray-800">Lista de comunicados registrados</h1>
+                            <div class="row">
+                                <div class="col-sm"><strong>Año:</strong> <span th:text="${aula.idAnio}"></span></div>
+                                <div class="col-sm"><strong>Grado:</strong> <span th:text="${aula.nombreGrado}"></span></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-auto text-right">
+                            <button class="btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#registroModal">
+                                <i class="fas fa-plus fa-sm text-white-50"></i> Nuevo comunicado
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Formulario de búsqueda -->
+                    <form id="formBusqueda" class="navbar-search my-4">
+                        <input type="hidden" id="busquedaIdAula" th:value="${aula.idAula}" />
+                        <div class="input-group">
+                            <input type="text" id="inputBusqueda" class="form-control bg-white" aria-label="Buscar" placeholder="Buscar por título o fecha..."/>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit"><i class="fas fa-search fa-sm"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Lista de asistencias -->
+                    <div id="resumenBusqueda" class="mb-3">Espere...</div>
+                    <div id="listaBusqueda" class="row"></div>
+                    <!-- Paginado -->
+                    <nav th:replace="util/pagination :: pagination"></nav>
+                    <!-- Botones -->
+                    <div class="text-center mb-4">
+                        <a class="btn btn-sm btn-secondary" href="/aulas">Volver a la lista de aulas</a>
+                    </div>
+                </div>
+                <!-- Fin del contenido de la página -->
+            </div>
+            <!-- Footer -->
+            <footer th:replace="util/footer :: footer"></footer>
+        </div>
+    </div>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    <!-- Modal de creación de un usuario -->
+    <div th:replace="docente/comunicados/registro :: registroModal"></div>
+    <!-- Scripts de JavaScript -->
+    <script src="/js/vendor/sb-admin-2.min.js"></script>
+    <script src="/js/vendor/jquery-ui.min.js"></script>
+    <script src="/js/vendor/mustache.min.js"></script>
+    <script src="/js/utilidades.js"></script>
+    <script src="/js/docente/comunicados.js"></script>
+    <script th:replace="docente/comunicados/resultado :: template"></script>
+</body>
+</html>

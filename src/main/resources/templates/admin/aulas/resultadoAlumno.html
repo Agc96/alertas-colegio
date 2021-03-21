@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sistema de Alertas</title>
+</head>
+<body>
+    <script id="alumnoTemplate" type="text/mustache" th:fragment="template">
+        <div class="col-xl-4 col-md-6 col-12">
+            <div class="card shadow mb-4" data-id="{{idAlumno}}">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-auto pr-0">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="alumno{{idAlumno}}" {{#checked}}checked=""{{/checked}} />
+                                <label class="custom-control-label" for="alumno{{idAlumno}}"></label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div><strong>DNI:</strong> {{dni}}</div>
+                            <div><strong>Nombres:</strong> {{nombres}}</div>
+                            <div><strong>Apellidos:</strong> {{apellidos}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+</html>

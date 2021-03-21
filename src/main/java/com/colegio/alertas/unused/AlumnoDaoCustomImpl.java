@@ -1,4 +1,4 @@
-package com.colegio.alertas.repository.custom;
+package com.colegio.alertas.unused;
 
 import com.colegio.alertas.dto.AlumnoDto;
 import com.colegio.alertas.util.Preconditions;
@@ -27,7 +27,7 @@ public class AlumnoDaoCustomImpl implements AlumnoDaoCustom {
 
     @Override
     public List<AlumnoDto> listarFiltro(AlumnoDto filtro, Integer pageNumber, Integer maxResults) {
-        Query query = QueryUtils.setPagination(queryFiltro(filtro, true), pageNumber, maxResults);
+        Query query = Unused.setPagination(queryFiltro(filtro, true), pageNumber, maxResults);
         List<Object[]> alumnosBD = query.getResultList();
         // Convertir lista de registros de BD a lista de DTOs
         List<AlumnoDto> alumnosDto = new ArrayList<>(alumnosBD.size());
@@ -66,7 +66,7 @@ public class AlumnoDaoCustomImpl implements AlumnoDaoCustom {
             parameters.put("apellidos", filtro.getApellidos());
         }
         // Formar el query
-        return QueryUtils.createNativeQuery(sql.toString(), parameters, entityManager);
+        return Unused.createNativeQuery(sql.toString(), parameters, entityManager);
     }
 
 }

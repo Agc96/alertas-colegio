@@ -1,11 +1,11 @@
 package com.colegio.alertas.entity;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,11 +19,7 @@ public class Usuario implements Serializable {
     private static final long serialVersionUID = -353359569255609942L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_usuario")
-    private Integer idUsuario;
-
-    @Column(name = "nombre_usuario", nullable = false, unique = true)
+    @Column(name = "nombre_usuario")
     private String nombreUsuario;
 
     @Column(nullable = false)
@@ -38,15 +34,8 @@ public class Usuario implements Serializable {
     @Column(nullable = false)
     private String apellidos;
 
-    @Column(name = "id_tipo_usuario", nullable = false)
-    private Integer idTipoUsuario;
-
-    public Integer getIdUsuario() {
-        return idUsuario;
-    }
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private UsuarioRol usuarioRol;
 
     public String getNombreUsuario() {
         return nombreUsuario;
@@ -83,11 +72,11 @@ public class Usuario implements Serializable {
         this.apellidos = apellidos;
     }
 
-    public Integer getIdTipoUsuario() {
-        return idTipoUsuario;
+    public UsuarioRol getUsuarioRol() {
+        return usuarioRol;
     }
-    public void setIdTipoUsuario(Integer idTipoUsuario) {
-        this.idTipoUsuario = idTipoUsuario;
+    public void setUsuarioRol(UsuarioRol usuarioRol) {
+        this.usuarioRol = usuarioRol;
     }
 
 }

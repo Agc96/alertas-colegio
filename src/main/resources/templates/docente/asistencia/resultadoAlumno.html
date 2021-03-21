@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sistema de Alertas</title>
+</head>
+<body>
+    <script id="alumnoTemplate" type="text/mustache" th:fragment="template">
+        <div class="col-xl-4 col-md-6 col-12">
+            <div class="card shadow mb-4" data-id="{{idAlumno}}">
+                <div class="card-body">
+                    <div><strong>DNI:</strong> {{dni}}</div>
+                    <div><strong>Nombres:</strong> {{nombres}}</div>
+                    <div><strong>Apellidos:</strong> {{apellidos}}</div>
+                    <div class="mt-2">
+                        <select class="form-control registroEstado" id="registroEstado{{idAlumno}}">
+                            <option value="">Seleccione un estado</option>
+                            <option th:each="estado : ${estados}" th:value="${estado.id}" th:text="${estado.nombre}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+</html>

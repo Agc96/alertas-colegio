@@ -1,4 +1,4 @@
-package com.colegio.alertas.repository.custom;
+package com.colegio.alertas.unused;
 
 import com.colegio.alertas.dto.AlumnoDto;
 import java.util.List;

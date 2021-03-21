@@ -35,10 +35,10 @@
                         <input type="text" id="registroApellidos" class="form-control" placeholder="Apellido paterno y materno del usuario"/>
                     </div>
                     <div class="form-group">
-                        <label for="registroTipoUsuario">Tipo de usuario:</label>
-                        <select id="registroTipoUsuario" class="form-control">
+                        <label for="registroRol">Tipo de usuario:</label>
+                        <select id="registroRol" class="form-control">
                             <option value="">Seleccione un tipo de usuario</option>
-                            <option th:each="tipoUsuario : ${tiposUsuario}" th:value="${tipoUsuario.id}" th:text="${tipoUsuario.nombre}"></option>
+                            <option th:each="rol : ${roles}" th:value="${rol.id}" th:text="${rol.nombre}"></option>
                         </select>
                     </div>
                 </div>

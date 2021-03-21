@@ -1,4 +1,4 @@
-package com.colegio.alertas.dto.out;
+package com.colegio.alertas.dto;
 
 import java.io.Serializable;
 
@@ -10,12 +10,8 @@ public class BaseDto implements Serializable {
 
     private static final long serialVersionUID = -1266585805172643579L;
 
-    private Boolean error;
+    private Boolean error = false;
     private String mensaje;
-
-    public BaseDto() {
-        error = false;
-    }
 
     public Boolean getError() {
         return error;

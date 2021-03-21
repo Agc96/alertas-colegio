@@ -6,15 +6,15 @@
     <title>Sistema de Alertas</title>
 </head>
 <body>
-    <script id="resultadoTemplate" type="text/mustache" th:fragment="template">
+    <script id="usuarioTemplate" type="text/mustache" th:fragment="template">
         <div class="col-xl-4 col-md-6 col-12">
-            <div class="card shadow mb-4" data-id="{{idUsuario}}">
+            <div class="card shadow mb-4">
                 <div class="card-body">
-                    <div><strong>Nombre de usuario:</strong> <span class="busquedaNombreUsuario">{{nombreUsuario}}</span></div>
+                    <div><strong>Nombre de usuario:</strong> <span class="busquedaUserName">{{nombreUsuario}}</span></div>
                     <div><strong>DNI:</strong> <span class="busquedaDni">{{dni}}</span></div>
                     <div><strong>Nombres:</strong> <span class="busquedaNombres">{{nombres}}</span></div>
                     <div><strong>Apellidos:</strong> <span class="busquedaApellidos">{{apellidos}}</span></div>
-                    <div><strong>Tipo de usuario:</strong> <span class="busquedaTipoUsuario" data-id="1">{{nombreTipoUsuario}}</span></div>
+                    <div><strong>Rol:</strong> <span class="busquedaRol" data-id="{{idRol}}">{{nombreRol}}</span></div>
                     <div class="text-right mt-2">
                         <button class="btn btn-sm btn-info actualizarRegistro" data-toggle="modal" data-target="#registroModal">
                             <i class="fas fa-edit"></i> Editar

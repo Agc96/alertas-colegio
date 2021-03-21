@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sistema de Alertas</title>
+</head>
+<body>
+    <div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="registroLabel" aria-hidden="true" th:fragment="registroModal">
+        <form class="modal-dialog" role="document" id="registroForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registroLabel">Crear o editar un comunicado</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="registroTitulo">Título:</label>
+                        <input type="text" id="registroTitulo" class="form-control" placeholder="Título del comunicado"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="registroFecha">Fecha</label>
+                        <input type="text" id="registroFecha" class="form-control dateInput" placeholder="Fecha en el formato dd/mm/aaaa"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="registroDescripcion">Descripción:</label>
+                        <textarea id="registroDescripcion" class="form-control" rows="4"
+                                  placeholder="Descripción del comunicado"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" type="submit">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

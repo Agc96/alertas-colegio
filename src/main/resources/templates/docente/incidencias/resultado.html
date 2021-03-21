@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sistema de Alertas</title>
+</head>
+<body>
+    <script id="incidenciaTemplate" type="text/mustache" th:fragment="template">
+        <div class="col-xl-6 col-12">
+            <div class="card shadow mb-4" data-id="{{idIncidencia}}">
+                <div class="card-body">
+                    <div><strong>Fecha:</strong> <span class="busquedaFecha">{{fecha}}</span></div>
+                    <div><strong>Alumno:</strong> <span class="busquedaAlumno" data-id="{{idAlumno}}">{{nombresAlumno}} {{apellidosAlumno}}</span></div>
+                    <p class="busquedaDescripcion mt-2" data-texto="{{descripcion}}">{{{descripcionHtml}}}</p>
+                    <div class="text-right mt-2">
+                        <button class="btn btn-sm btn-info actualizarIncidencia" data-toggle="modal" data-target="#registroModal">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn btn-sm btn-danger eliminarIncidencia">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+</html>

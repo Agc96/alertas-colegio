@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sistema de Alertas</title>
+</head>
+<body>
+    <script id="comunicadoTemplate" type="text/mustache" th:fragment="template">
+        <div class="col-xl-6 col-12">
+            <div class="card shadow mb-4" data-id="{{idComunicado}}">
+                <div class="card-header py-3">
+                    <h6 class="busquedaTitulo mb-0 font-weight-bold text-primary">{{titulo}}</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>Fecha:</strong> <span class="busquedaFecha">{{fecha}}</span></p>
+                    <p class="busquedaDescripcion" data-texto="{{descripcion}}">{{{descripcionHtml}}}</p>
+                    <div class="text-right mt-2">
+                        <button class="btn btn-sm btn-info actualizarComunicado" data-toggle="modal" data-target="#registroModal">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn btn-sm btn-danger eliminarComunicado">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+</html>

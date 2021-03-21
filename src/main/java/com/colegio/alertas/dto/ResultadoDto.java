@@ -1,4 +1,4 @@
-package com.colegio.alertas.dto.out;
+package com.colegio.alertas.dto;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ public class ResultadoDto<T> extends BaseDto {
 
     private Integer total;
     private List<T> lista;
+    private Integer numPaginas;
 
     public Integer getTotal() {
         return total;
@@ -26,6 +27,13 @@ public class ResultadoDto<T> extends BaseDto {
     }
     public void setLista(List<T> lista) {
         this.lista = lista;
+    }
+
+    public Integer getNumPaginas() {
+        return numPaginas;
+    }
+    public void setNumPaginas(Integer numPaginas) {
+        this.numPaginas = numPaginas;
     }
 
 }

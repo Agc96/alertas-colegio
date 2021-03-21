@@ -17,88 +17,44 @@
                 <!-- Contenido de la página -->
                 <div class="container-fluid mt-4">
                     <!-- Título de la página -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Registro de asistencia</h1>
+                    <h1 class="h3 text-gray-800 mb-4">Registro de asistencia</h1>
+                    <!-- Datos principales -->
+                    <div class="row">
+                        <div class="form-group col-xl-3 col-sm-6">
+                            <label for="registroFecha">Fecha:</label>
+                            <input type="text" id="registroFecha" class="form-control dateInput"
+                                   placeholder="Use el formato dd/mm/aaaa"/>
+                        </div>
+                        <div class="form-group col-xl-3 col-sm-6">
+                            <label for="registroAnio">Año de estudios:</label>
+                            <input type="text" id="registroAnio" class="form-control" th:value="${aula.idAnio}" readonly=""/>
+                        </div>
+                        <div class="form-group col-xl-6">
+                            <label for="registroGrado">Grado de estudios:</label>
+                            <input type="text" id="registroGrado" class="form-control" th:value="${aula.nombreGrado}" readonly=""/>
+                        </div>
                     </div>
-                    <!-- Formulario -->
-                    <form>
-                        <div class="row">
-                            <div class="form-group col-sm-4">
-                                <label for="fecha">Fecha:</label>
-                                <input type="date" id="fecha" class="form-control"/>
+                    <!-- Lista de alumnos -->
+                    <h4 class="mt-4">Lista de alumnos registrados</h4>
+                    <form id="formBusqueda" class="navbar-search my-3">
+                        <div class="input-group">
+                            <input type="text" id="inputBusqueda" class="form-control bg-white" aria-label="Buscar" placeholder="Buscar por DNI, nombres o apellidos..."/>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit"><i class="fas fa-search fa-sm"></i></button>
                             </div>
-                            <div class="form-group col">
-                                <label for="aula">Aula:</label>
-                                <input type="text" id="aula" class="form-control" value="2021 - 1° primaria" placeholder="Aula donde se registrará la asistencia" disabled=""/>
-                            </div>
-                        </div>
-                        <!-- Lista de alumnos -->
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Lista de alumnos</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="usuarioDataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>DNI</th>
-                                                <th>Nombres</th>
-                                                <th>Apellidos</th>
-                                                <th>Asistencia</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>12345678</td>
-                                                <td>Juan Jesús</td>
-                                                <td>González Ayala</td>
-                                                <td>
-                                                    <select>
-                                                        <option value="">Seleccione</option>
-                                                        <option value="1">Asistente</option>
-                                                        <option value="2">Falto</option>
-                                                        <option value="3">Justificado</option>
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>12345678</td>
-                                                <td>Miguel Ángel</td>
-                                                <td>González Tarazona</td>
-                                                <td>
-                                                    <select>
-                                                        <option value="">Seleccione</option>
-                                                        <option value="1">Asistente</option>
-                                                        <option value="2">Falto</option>
-                                                        <option value="3">Justificado</option>
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>12345678</td>
-                                                <td>Anthony Agustín</td>
-                                                <td>Gutiérrez Cazorla</td>
-                                                <td>
-                                                    <select>
-                                                        <option value="">Seleccione</option>
-                                                        <option value="1">Asistente</option>
-                                                        <option value="2">Falto</option>
-                                                        <option value="3">Justificado</option>
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Botones -->
-                        <div class="text-center">
-                            <button class="btn btn-sm btn-primary" type="submit">Guardar</button>
-                            <a class="btn btn-sm btn-secondary" href="/aulas/1/asistencia">Cancelar</a>
                         </div>
                     </form>
+                    <div id="resumenBusqueda" class="mb-3">Espere...</div>
+                    <div id="listaBusqueda" class="row"></div>
+                    <!-- Paginado -->
+                    <nav th:replace="util/pagination :: pagination"></nav>
+                    <!-- Botones -->
+                    <div class="text-center mb-4">
+                        <input type="hidden" id="registroIdAsistencia" th:value="${idAsistencia}"/>
+                        <input type="hidden" id="registroIdAula" th:value="${aula.idAula}"/>
+                        <button class="btn btn-primary" id="btnGuardar">Guardar</button>
+                        <a class="btn btn-secondary" th:href="'/aulas/' + ${aula.idAula} + '/asistencia'">Cancelar</a>
+                    </div>
                 </div>
                 <!-- Fin del contenido de la página -->
             </div>
@@ -110,5 +66,10 @@
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
     <!-- Scripts de JavaScript -->
     <script src="/js/vendor/sb-admin-2.min.js"></script>
+    <script src="/js/vendor/jquery-ui.min.js"></script>
+    <script src="/js/vendor/mustache.min.js"></script>
+    <script src="/js/utilidades.js"></script>
+    <script src="/js/docente/asistencia/registro.js"></script>
+    <script th:replace="docente/asistencia/resultadoAlumno :: template"></script>
 </body>
 </html>

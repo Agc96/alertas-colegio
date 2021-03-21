@@ -1,9 +1,9 @@
 package com.colegio.alertas.util;
 
-import com.colegio.alertas.dto.in.BusquedaDto;
-import java.util.Map;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import com.colegio.alertas.dto.BusquedaDto;
+import com.colegio.alertas.dto.ResultadoDto;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -13,26 +13,21 @@ import org.springframework.data.domain.Pageable;
  */
 public final class QueryUtils {
 
+    private static final Logger LOG = Logger.getLogger(QueryUtils.class.getName());
+
     private QueryUtils() {
         // Nadie debe ser capaz de instanciar esta clase.
     }
 
-    public static Query createNativeQuery(String sql, Map<String, Object> parameters, EntityManager entityManager) {
-        Query query = entityManager.createQuery(sql);
-        for (Map.Entry<String, Object> parameter : parameters.entrySet()) {
-            query.setParameter(parameter.getKey(), parameter.getValue());
-        }
-        return query;
-    }
-
     public static Pageable createPagination(BusquedaDto busqueda) {
-        return PageRequest.of(busqueda.getNumPagina(), busqueda.getNumResultados());
+        return PageRequest.of(busqueda.getIndicePagina(), busqueda.getNumResultados());
     }
 
-    public static Query setPagination(Query query, Integer pageNumber, Integer maxResults) {
-        query.setMaxResults(maxResults);
-        query.setFirstResult(maxResults * (pageNumber - 1));
-        return query;
+    public static void setNumPaginas(BusquedaDto busqueda, ResultadoDto<?> resultado) {
+        double total = resultado.getTotal();
+        double numResultados = busqueda.getNumResultados();
+        double numPaginas = Math.ceil(total / numResultados);
+        resultado.setNumPaginas((int)numPaginas);
     }
 
     public static String toString(Object column) {

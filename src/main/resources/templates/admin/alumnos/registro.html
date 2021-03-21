@@ -41,7 +41,7 @@
                         <label for="registroPadre">Padre de familia a cargo:</label>
                         <select id="registroPadre" class="form-control">
                             <option value="">Seleccione un padre de familia</option>
-                            <option th:each="padre : ${padres}" th:value="${padre.idUsuario}"
+                            <option th:each="padre : ${padres}" th:value="${padre.nombreUsuario}"
                                     th:text="${padre.nombres} + ' ' + ${padre.apellidos}"></option>
                         </select>
                     </div>

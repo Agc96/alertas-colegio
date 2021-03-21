@@ -1,9 +1,8 @@
-/* global Mustache */
-jQuery(function($) {
+/* global jQuery, Mustache */
+jQuery(function ($) {
 
-    var template = $('#resultadoTemplate').html();
+    var template = $('#alumnoTemplate').html();
     var query = null;
-    var maxPages = 0;
     var $card = null;
 
     /* Formulario de filtros de búsqueda */
@@ -12,50 +11,27 @@ jQuery(function($) {
         event.preventDefault();
         query = {
             termino: $('#inputBusqueda').val(),
-            numPagina: 0,
+            indicePagina: 0,
             numResultados: 6
         };
-        enviarFiltros();
+        buscarAlumnos();
     });
 
-    function enviarFiltros() {
-        // Limpiar los resultados de la búsqueda
-        $('#listaBusqueda').children().remove();
-        $('#resumenBusqueda').text('Espere...');
-        $('.paginationWrapper').addClass('d-none');
-        // Enviar la petición AJAX
-        sendRequest('/admin/alumnos/buscar', query, function (response) {
-            if (response.total > 0) {
-                // Actualizar resultados de la búsqueda
-                $('#resumenBusqueda').html('Se encontraron <strong>' + response.total + '</strong> resultados.');
-                $.each(response.lista, function (_, item) {
-                    $('#listaBusqueda').append(Mustache.render(template, item));
-                });
-                // Actualizar paginado
-                $('.paginationWrapper').removeClass('d-none');
-                maxPages = Math.ceil(response.total / query.numResultados);
-                $('.numPaginado').text(query.numPagina + 1);
-                $('.totalPaginado').text(maxPages);
-            } else {
-                // Actualizar resultados de la búsqueda
-                $('#resumenBusqueda').text('No se encontraron resultados.');
-                // Actualizar paginado
-                maxPages = 0;
-            }
-        });
+    function buscarAlumnos() {
+        sendSearchRequest('/admin/alumnos/buscar', query, template);
     }
 
-    $('.paginaAnterior').click(function () {
-        if (query.numPagina > 0) {
-            query.numPagina--;
-            enviarFiltros();
+    $('#paginaAnterior').click(function () {
+        if (query.indicePagina > 0) {
+            query.indicePagina--;
+            buscarAlumnos();
         }
     });
 
-    $('.paginaSiguiente').click(function () {
-        if (query.numPagina < maxPages) {
-            query.numPagina++;
-            enviarFiltros();
+    $('#paginaSiguiente').click(function () {
+        if (query.indicePagina < getIndiceMax()) {
+            query.indicePagina++;
+            buscarAlumnos();
         }
     });
 
@@ -78,19 +54,19 @@ jQuery(function($) {
 
     $('#registroForm').submit(function (event) {
         event.preventDefault();
-        sendRequest('/admin/alumnos/registrar', {
+        sendRequest('/admin/alumnos/guardar', {
             idAlumno: $card.data('id') || null,
             dni: $('#registroDni').val(),
             nombres: $('#registroNombres').val(),
             apellidos: $('#registroApellidos').val(),
             fechaNacimiento: $('#registroFechaNac').val(),
-            idPadre: $('#registroPadre').val() //data('id') || null
+            nombreUsuarioPadre: $('#registroPadre').val() //data('id') || null
         }, function () {
             // Cerrar el modal y mostrar mensaje de éxito
             $('#registroModal').modal('hide');
             showSuccessMessage('Alumno guardado correctamente.');
             // Volver a cargar los resultados de la búsqueda
-            enviarFiltros();
+            buscarAlumnos();
         });
     });
 
@@ -98,14 +74,15 @@ jQuery(function($) {
 
     $('#listaBusqueda').on('click', '.eliminarRegistro', function (event) {
         if (confirm('¿Está seguro(a) de eliminar este usuario?')) {
+            // Enviar la petición AJAX
             sendRequest('/admin/alumnos/eliminar', {
                 idAlumno: $(event.target).parents('.card').data('id')
             }, function () {
                 // Mostrar mensaje de éxito
                 showSuccessMessage('Usuario eliminado correctamente.');
                 // Volver a cargar los resultados de la búsqueda
-                enviarFiltros();
-            });
+                buscarAlumnos();
+            }, true);
         }
     });
 

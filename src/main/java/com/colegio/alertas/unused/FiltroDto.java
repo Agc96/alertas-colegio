@@ -1,4 +1,4 @@
-package com.colegio.alertas.dto.in;
+package com.colegio.alertas.unused;
 
 import java.io.Serializable;
 

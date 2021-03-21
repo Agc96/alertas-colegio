@@ -16,31 +16,39 @@ public final class DateUtils {
 
     public static final String DDMMYYYY = "dd/MM/yyyy";
     public static final String YYYYMMDD = "yyyy-MM-dd";
+    public static final String DDMMYYYY_HHMM_24 = "dd/MM/yyyy HH:mm";
+    public static final String YYYYMMDD_HHMM_24 = "yyyy-MM-dd HH:mm";
+    public static final String HHMM_24 = "HH:mm";
 
     private DateUtils() {
         // Nadie debe ser capaz de instanciar esta clase.
     }
 
     public static String format(Date date) {
-        if (date != null) {
-            SimpleDateFormat formatter = new SimpleDateFormat(DDMMYYYY);
-            formatter.setLenient(false);
-            return formatter.format(date);
-        }
-        return null;
+        return format(date, DDMMYYYY);
+    }
+
+    public static String format(Date date, String format) {
+        return date == null ? null : getFormatter(format).format(date);
     }
 
     public static Date parse(String string) {
-        if (string != null) {
-            try {
-                SimpleDateFormat formatter = new SimpleDateFormat(DDMMYYYY);
-                formatter.setLenient(false);
-                return formatter.parse(string);
-            } catch (ParseException ex) {
-                LOG.log(Level.WARNING, "No se pudo convertir la fecha", ex);
-            }
+        return parse(string, DDMMYYYY);
+    }
+
+    public static Date parse(String string, String format) {
+        try {
+            return string == null ? null : getFormatter(format).parse(string);
+        } catch (ParseException ex) {
+            LOG.log(Level.WARNING, "No se pudo convertir la fecha", ex);
+            return null;
         }
-        return null;
+    }
+
+    private static SimpleDateFormat getFormatter(String format) {
+        SimpleDateFormat formatter = new SimpleDateFormat(format);
+        formatter.setLenient(false);
+        return formatter;
     }
 
 }

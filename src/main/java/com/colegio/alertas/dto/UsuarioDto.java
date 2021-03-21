@@ -10,20 +10,26 @@ public class UsuarioDto implements Serializable {
 
     private static final long serialVersionUID = 3772350122988237925L;
 
-    private Integer idUsuario;
+    private String nombreUsuario;
+    private String contrasenia;
     private String dni;
     private String nombres;
     private String apellidos;
-    private String nombreUsuario;
-    private String contrasenia;
-    private Integer idTipoUsuario;
-    private String nombreTipoUsuario;
+    private Integer idRol;
+    private String nombreRol;
 
-    public Integer getIdUsuario() {
-        return idUsuario;
+    public String getNombreUsuario() {
+        return nombreUsuario;
     }
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
     }
 
     public String getDni() {
@@ -47,32 +53,18 @@ public class UsuarioDto implements Serializable {
         this.apellidos = apellidos;
     }
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
+    public Integer getIdRol() {
+        return idRol;
     }
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    public String getContrasenia() {
-        return contrasenia;
-    }
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
+    public void setIdRol(Integer idRol) {
+        this.idRol = idRol;
     }
 
-    public Integer getIdTipoUsuario() {
-        return idTipoUsuario;
+    public String getNombreRol() {
+        return nombreRol;
     }
-    public void setIdTipoUsuario(Integer idTipoUsuario) {
-        this.idTipoUsuario = idTipoUsuario;
-    }
-
-    public String getNombreTipoUsuario() {
-        return nombreTipoUsuario;
-    }
-    public void setNombreTipoUsuario(String nombreTipoUsuario) {
-        this.nombreTipoUsuario = nombreTipoUsuario;
+    public void setNombreRol(String nombreRol) {
+        this.nombreRol = nombreRol;
     }
 
 }

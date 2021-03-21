@@ -6,7 +6,7 @@
     <title>Sistema de Alertas</title>
 </head>
 <body>
-    <script id="resultadoTemplate" type="text/mustache" th:fragment="template">
+    <script id="alumnoTemplate" type="text/mustache" th:fragment="template">
         <div class="col-xl-4 col-md-6 col-12">
             <div class="card shadow mb-4" data-id="{{idAlumno}}">
                 <div class="card-body">
@@ -14,7 +14,7 @@
                     <div><strong>Nombres:</strong> <span class="busquedaNombres">{{nombres}}</span></div>
                     <div><strong>Apellidos:</strong> <span class="busquedaApellidos">{{apellidos}}</span></div>
                     <div><strong>Fecha de nacimiento:</strong> <span class="busquedaFechaNac">{{fechaNacimiento}}</span></div>
-                    <div><strong>Padre de familia:</strong> <span class="busquedaPadre" data-id="{{idPadre}}">{{nombrePadre}}</span></div>
+                    <div><strong>Padre de familia:</strong> <span class="busquedaPadre" data-id="{{nombreUsuarioPadre}}">{{nombreCompletoPadre}}</span></div>
                     <div class="text-right mt-2">
                         <button class="btn btn-sm btn-info actualizarRegistro" data-toggle="modal" data-target="#registroModal">
                             <i class="fas fa-edit"></i> Editar

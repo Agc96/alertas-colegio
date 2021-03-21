@@ -1,12 +1,10 @@
 package com.colegio.alertas.dto;
 
-import java.io.Serializable;
-
 /**
  *
  * @author Sistema de Alertas
  */
-public class AlumnoDto implements Serializable {
+public class AlumnoDto extends BaseDto {
 
     private static final long serialVersionUID = -3080929470016734775L;
 
@@ -15,8 +13,8 @@ public class AlumnoDto implements Serializable {
     private String nombres;
     private String apellidos;
     private String fechaNacimiento;
-    private Integer idPadre;
-    private String nombrePadre;
+    private String nombreUsuarioPadre;
+    private String nombreCompletoPadre;
 
     public Integer getIdAlumno() {
         return idAlumno;
@@ -53,18 +51,18 @@ public class AlumnoDto implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public Integer getIdPadre() {
-        return idPadre;
+    public String getNombreUsuarioPadre() {
+        return nombreUsuarioPadre;
     }
-    public void setIdPadre(Integer idPadre) {
-        this.idPadre = idPadre;
+    public void setNombreUsuarioPadre(String nombreUsuarioPadre) {
+        this.nombreUsuarioPadre = nombreUsuarioPadre;
     }
 
-    public String getNombrePadre() {
-        return nombrePadre;
+    public String getNombreCompletoPadre() {
+        return nombreCompletoPadre;
     }
-    public void setNombrePadre(String nombrePadre) {
-        this.nombrePadre = nombrePadre;
+    public void setNombreCompletoPadre(String nombreCompletoPadre) {
+        this.nombreCompletoPadre = nombreCompletoPadre;
     }
 
 }

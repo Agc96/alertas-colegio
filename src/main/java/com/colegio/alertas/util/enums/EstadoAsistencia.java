@@ -4,16 +4,16 @@ package com.colegio.alertas.util.enums;
  *
  * @author Sistema de Alertas
  */
-public enum TipoUsuario {
+public enum EstadoAsistencia {
 
-    ADMIN(1, "Administrador"),
-    DOCENTE(2, "Docente"),
-    PADRE(3, "Padre de Familia");
+    ASISTENTE(1, "Asistente"),
+    FALTA(2, "Falta"),
+    JUSTIFICADO(3, "Justificado");
 
     private final int id;
     private final String nombre;
 
-    private TipoUsuario(int id, String nombre) {
+    private EstadoAsistencia(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
@@ -26,10 +26,10 @@ public enum TipoUsuario {
         return nombre;
     }
 
-    public static TipoUsuario find(Integer id) {
+    public static EstadoAsistencia find(Integer id) {
         if (id != null) {
-            for (TipoUsuario tipoUsuario : TipoUsuario.values()) {
-                if (tipoUsuario.getId() == id) return tipoUsuario;
+            for (EstadoAsistencia tipoAsistencia : EstadoAsistencia.values()) {
+                if (tipoAsistencia.getId() == id) return tipoAsistencia;
             }
         }
         return null;

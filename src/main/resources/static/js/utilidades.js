@@ -1,4 +1,4 @@
-/* global iziToast */
+/* global iziToast, Mustache */
 jQuery(function ($) {
 
     /* Configurar los botones con tooltip */
@@ -66,13 +66,20 @@ jQuery(function ($) {
 
     /* Envío de peticiones AJAX */
 
-    window.sendRequest = function (url, data, callback) {
-        $.ajax({
+    window.sendRequest = function (url, data, callback, onlyOneParam) {
+        // Formular la petición AJAX
+        var query = {
             data: data,
             type: 'POST',
             dataType: 'json',
             url: url
-        }).done(function (response) {
+        };
+        if (!onlyOneParam) {
+            query.contentType = 'application/json';
+            query.data = JSON.stringify(data);
+        }
+        // Enviar la petición AJAX
+        $.ajax(query).done(function (response) {
             if (response.error) {
                 showErrorMessage(response.mensaje);
             } else {
@@ -82,6 +89,38 @@ jQuery(function ($) {
             console.log(error);
             showErrorMessage('Hubo un error desconocido en el servidor.');
         });
+    };
+
+    window.sendSearchRequest = function (url, data, template, callbackBefore, callbackAfter) {
+        // Limpiar los resultados de la búsqueda
+        $('#listaBusqueda').children().remove();
+        $('#resumenBusqueda').text('Espere...');
+        $('#paginationWrapper').addClass('d-none');
+        // Enviar la petición AJAX
+        sendRequest(url, data, function (response) {
+            if (response.total > 0) {
+                // Actualizar resultados de la búsqueda
+                $('#resumenBusqueda').html('Se encontraron <strong>' + response.total + '</strong> resultados.');
+                $.each(response.lista, function (_, item) {
+                    if (callbackBefore) callbackBefore(item);
+                    $('#listaBusqueda').append(Mustache.render(template, item));
+                    if (callbackAfter) callbackAfter(item);
+                });
+                // Actualizar paginado
+                $('#paginationWrapper').removeClass('d-none');
+                $('#numPaginado').text(data.indicePagina + 1);
+                $('#totalPaginado').text(response.numPaginas);
+            } else {
+                // Actualizar resultados de la búsqueda
+                $('#resumenBusqueda').text('No se encontraron resultados.');
+                // Actualizar paginado
+                $('#numPaginado, #totalPaginado').text(0);
+            }
+        });
+    };
+
+    window.getIndiceMax = function () {
+        return parseInt($('#totalPaginado').text()) - 1;
     };
 
 });

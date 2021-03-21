@@ -2,7 +2,7 @@ package com.colegio.alertas.util;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 public class AppException extends Exception {
 
