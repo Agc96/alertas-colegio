@@ -1,9 +1,7 @@
 package com.colegio.alertas.service;
 
-import com.colegio.alertas.dto.AlumnoDto;
 import com.colegio.alertas.dto.AsistenciaDto;
 import com.colegio.alertas.dto.BusquedaAulaDto;
-import com.colegio.alertas.dto.BusquedaDto;
 import com.colegio.alertas.dto.DetalleAsistenciaDto;
 import com.colegio.alertas.entity.Alumno;
 import com.colegio.alertas.entity.Asistencia;
