@@ -167,4 +167,17 @@ public class AsistenciaService {
         return detalle;
     }
 
+    public void eliminar(Integer idAsistencia) throws AppException {
+        Asistencia asistencia = asistenciaRepository.findByIdAsistencia(idAsistencia);
+        if (asistencia == null) {
+            throw new AppException("El registro con el ID especificado no existe.");
+        }
+        List<DetalleAsistencia> detalles = detalleAsistenciaRepository.listar(idAsistencia);
+        if (!Preconditions.isEmpty(detalles)) {
+            for (DetalleAsistencia detalle : detalles) {
+                detalleAsistenciaRepository.delete(detalle);
+            }
+        }
+        asistenciaRepository.delete(asistencia);
+    }
 }

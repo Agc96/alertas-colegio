@@ -133,6 +133,20 @@ public class AulaController {
         return response;
     }
 
+    @PostMapping("/admin/aulas/eliminar")
+    @ResponseBody
+    public BaseDto eliminar(@RequestParam Integer idAula) {
+        BaseDto response = new BaseDto();
+        try {
+            aulaService.eliminar(idAula);
+        } catch (AppException ex) {
+            String msg = "No se pudo eliminar el aula. " + ex.getMessage();
+            LOG.log(Level.WARNING, msg, ex);
+            response.setError(true, msg);
+        }
+        return response;
+    }
+
     @GetMapping("/aulas/{idAula}")
     public String detalleDocente(@PathVariable Integer idAula) {
         return "docente/aulas/detalle";

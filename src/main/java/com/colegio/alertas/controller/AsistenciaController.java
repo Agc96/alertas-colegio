@@ -114,10 +114,6 @@ public class AsistenciaController {
             String msg = "No se pudo guardar la asistencia. " + ex.getMessage();
             LOG.log(Level.WARNING, msg, ex);
             response.setError(true, msg);
-        } catch (Exception ex) {
-            String msg = "Hubo un error desconocido y no se pudo guardar la asistencia.";
-            LOG.log(Level.SEVERE, msg + " " + ex.getMessage(), ex);
-            response.setError(true, msg);
         }
         return response;
     }
@@ -127,6 +123,20 @@ public class AsistenciaController {
     public AsistenciaDto detalle(@RequestParam Integer idAsistencia) {
         AsistenciaDto asistencia = asistenciaService.detalle(idAsistencia, true);
         return asistencia == null ? new AsistenciaDto() : asistencia;
+    }
+
+    @PostMapping("/docente/asistencia/eliminar")
+    @ResponseBody
+    public BaseDto eliminar(@RequestParam Integer idAsistencia) {
+        BaseDto response = new BaseDto();
+        try {
+            asistenciaService.eliminar(idAsistencia);
+        } catch (AppException ex) {
+            String msg = "No se pudo eliminar la asistencia. " + ex.getMessage();
+            LOG.log(Level.WARNING, msg, ex);
+            response.setError(true, msg);
+        }
+        return response;
     }
 
 }

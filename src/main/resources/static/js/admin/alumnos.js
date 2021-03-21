@@ -73,13 +73,13 @@ jQuery(function ($) {
     /* Eliminar un alumno */
 
     $('#listaBusqueda').on('click', '.eliminarRegistro', function (event) {
-        if (confirm('¿Está seguro(a) de eliminar este usuario?')) {
+        if (confirm('¿Está seguro(a) de eliminar este alumno?')) {
             // Enviar la petición AJAX
             sendRequest('/admin/alumnos/eliminar', {
                 idAlumno: $(event.target).parents('.card').data('id')
             }, function () {
                 // Mostrar mensaje de éxito
-                showSuccessMessage('Usuario eliminado correctamente.');
+                showSuccessMessage('Alumno eliminado correctamente.');
                 // Volver a cargar los resultados de la búsqueda
                 buscarAlumnos();
             }, true);

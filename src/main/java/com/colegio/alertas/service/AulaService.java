@@ -207,4 +207,12 @@ public class AulaService {
         return Collections.EMPTY_LIST;
     }
 
+    public void eliminar(Integer idAula) throws AppException {
+        Aula aula = aulaRepository.findByIdAula(idAula);
+        if (aula == null) {
+            throw new AppException("El ID del aula ingresado no existe.");
+        }
+        aulaRepository.delete(aula);
+    }
+
 }
