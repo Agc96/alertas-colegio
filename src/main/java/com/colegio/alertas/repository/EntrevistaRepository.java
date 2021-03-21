@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 @Repository
 public interface EntrevistaRepository extends JpaRepository<Entrevista, Integer> {

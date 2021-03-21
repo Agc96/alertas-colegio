@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 @Service
 public class IncidenciaService {

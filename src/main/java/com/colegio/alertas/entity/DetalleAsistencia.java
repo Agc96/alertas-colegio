@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 @Entity
 @Table(name = "sa_detalle_asistencia")

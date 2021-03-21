@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 public final class SecurityUtils {
 

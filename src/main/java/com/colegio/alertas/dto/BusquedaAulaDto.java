@@ -2,7 +2,7 @@ package com.colegio.alertas.dto;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 public class BusquedaAulaDto extends BusquedaDto {
 
