@@ -40,12 +40,6 @@ public class Aula implements Serializable {
     @JoinColumn(name = "id_docente", nullable = false)
     private Usuario docente;
 
-    @ManyToMany
-    @JoinTable(name = "sa_aula_alumno",
-            joinColumns = @JoinColumn(name = "id_aula"),
-            inverseJoinColumns = @JoinColumn(name = "id_alumno"))
-    private Set<Alumno> alumnos;
-
     public Integer getIdAula() {
         return idAula;
     }
@@ -72,13 +66,6 @@ public class Aula implements Serializable {
     }
     public void setDocente(Usuario docente) {
         this.docente = docente;
-    }
-
-    public Set<Alumno> getAlumnos() {
-        return alumnos;
-    }
-    public void setAlumnos(Set<Alumno> alumnos) {
-        this.alumnos = alumnos;
     }
 
 }

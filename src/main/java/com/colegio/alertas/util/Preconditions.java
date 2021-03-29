@@ -33,4 +33,26 @@ public final class Preconditions {
         return !isEmpty(dni) && dni.matches("\\d+") && dni.length() == 8;
     }
 
+    public static <T> T checkNotNull(T object, String message) throws AppException {
+        if (object == null) {
+            throw new AppException(message);
+        }
+        return object;
+    }
+
+    public static String checkNotEmpty(String text, String message) throws AppException {
+        if (isEmpty(text)) {
+            throw new AppException(message);
+        }
+        return text;
+    }
+
+    public static String checkDni(String dni, String msgEmpty, String msgInvalid) throws AppException {
+        checkNotEmpty(dni, msgEmpty);
+        if (!isValidDni(dni)) {
+            throw new AppException(msgInvalid);
+        }
+        return dni;
+    }
+
 }

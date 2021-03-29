@@ -18,7 +18,7 @@ public class AulaDto extends BaseDto {
     private String nombreUsuarioDocente;
     private String nombreCompletoDocente;
     private Integer numAlumnos;
-    private List<Integer> alumnos = new ArrayList<>();
+    private List<AulaAlumnoDto> alumnos = new ArrayList<>();
 
     public Integer getIdAula() {
         return idAula;
@@ -69,10 +69,10 @@ public class AulaDto extends BaseDto {
         this.numAlumnos = numAlumnos;
     }
 
-    public List<Integer> getAlumnos() {
+    public List<AulaAlumnoDto> getAlumnos() {
         return alumnos;
     }
-    public void setAlumnos(List<Integer> alumnos) {
+    public void setAlumnos(List<AulaAlumnoDto> alumnos) {
         this.alumnos = alumnos;
     }
 

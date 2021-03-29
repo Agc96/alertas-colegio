@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -98,37 +97,26 @@ public class UsuarioService implements UserDetailsService {
     }
 
     public void validarYLlenar(Usuario usuario, UsuarioDto dto) throws AppException {
-        // Validar e ingresar el DNI del usuario
-        String dni = dto.getDni();
-        if (Preconditions.isEmpty(dni)) {
-            throw new AppException("Debe ingresar el DNI del usuario.");
+        // Validar y colocar el DNI del usuario
+        usuario.setDni(Preconditions.checkDni(dto.getDni(),
+                "Debe ingresar el DNI del usuario.",
+                "El DNI debe tener exactamente 8 dígitos."));
+        // Validar y colocar los nombres del usuario
+        usuario.setNombres(Preconditions.checkNotEmpty(dto.getNombres(),
+                "Debe ingresar los nombres del usuario."));
+        // Validar y colocar los apellidos del usuario
+        usuario.setApellidos(Preconditions.checkNotEmpty(dto.getApellidos(),
+                "Debe ingresar los apellidos del usuario."));
+        // Validar y colocar el tipo de usuario
+        Rol rol = Preconditions.checkNotNull(Rol.find(dto.getIdRol()),
+                "El tipo de usuario ingresado no existe.");
+        UsuarioRol usuarioRol = usuario.getUsuarioRol();
+        if (usuarioRol == null) {
+            usuarioRol = new UsuarioRol();
+            usuarioRol.setUsuario(usuario);
+            usuario.setUsuarioRol(usuarioRol);
         }
-        if (!Preconditions.isValidDni(dni)) {
-            throw new AppException("El DNI debe tener exactamente 8 dígitos.");
-        }
-        usuario.setDni(dni);
-        // Validar e ingresar los nombres del usuario
-        String nombres = dto.getNombres();
-        if (Preconditions.isEmpty(nombres)) {
-            throw new AppException("Debe ingresar los nombres del usuario.");
-        }
-        usuario.setNombres(nombres);
-        // Validar e ingresar los apellidos del usuario
-        String apellidos = dto.getApellidos();
-        if (Preconditions.isEmpty(apellidos)) {
-            throw new AppException("Debe ingresar los apellidos del usuario.");
-        }
-        usuario.setApellidos(apellidos);
-        // Validar e ingresar el tipo de usuario
-        Rol rol = Rol.find(dto.getIdRol());
-        if (rol == null) {
-            throw new AppException("El tipo de usuario ingresado no existe.");
-        }
-        if (usuario.getUsuarioRol() == null) {
-            usuario.setUsuarioRol(new UsuarioRol());
-            usuario.getUsuarioRol().setUsuario(usuario);
-        }
-        usuario.getUsuarioRol().setRol(rol);
+        usuarioRol.setRol(rol);
     }
 
     public void eliminar(String nombreUsuario) throws AppException {

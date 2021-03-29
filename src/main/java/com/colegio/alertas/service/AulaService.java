@@ -1,16 +1,19 @@
 package com.colegio.alertas.service;
 
 import com.colegio.alertas.dto.AlumnoDto;
+import com.colegio.alertas.dto.AulaAlumnoDto;
 import com.colegio.alertas.dto.AulaDto;
 import com.colegio.alertas.dto.BusquedaAulaDto;
 import com.colegio.alertas.dto.BusquedaDto;
 import com.colegio.alertas.entity.Alumno;
 import com.colegio.alertas.entity.Anio;
 import com.colegio.alertas.entity.Aula;
+import com.colegio.alertas.entity.AulaAlumno;
 import com.colegio.alertas.entity.Grado;
 import com.colegio.alertas.entity.Usuario;
 import com.colegio.alertas.repository.AlumnoRepository;
 import com.colegio.alertas.repository.AnioRepository;
+import com.colegio.alertas.repository.AulaAlumnoRepository;
 import com.colegio.alertas.repository.AulaRepository;
 import com.colegio.alertas.repository.GradoRepository;
 import com.colegio.alertas.repository.UsuarioRepository;
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,6 +56,9 @@ public class AulaService {
     @Autowired
     private AlumnoRepository alumnoRepository;
 
+    @Autowired
+    private AulaAlumnoRepository aulaAlumnoRepository;
+
     public Integer contarAdmin(BusquedaDto busqueda) {
         return aulaRepository.contarAdmin(busqueda.getTermino());
     }
@@ -63,7 +70,7 @@ public class AulaService {
             List<AulaDto> listaDto = new ArrayList<>(aulas.size());
             for (Aula aula : aulas) {
                 AulaDto dto = convertir(aula);
-                dto.setNumAlumnos(aula.getAlumnos().size());
+                dto.setNumAlumnos(aulaAlumnoRepository.contarPorAula(aula.getIdAula()));
                 listaDto.add(dto);
             }
             return listaDto;
@@ -75,20 +82,24 @@ public class AulaService {
         return aulaRepository.existsById(idAula);
     }
 
-    public AulaDto detalle(Integer idAula, boolean convertirAlumnos) {
+    public AulaDto detalle(Integer idAula, boolean listarAlumnos) {
         Aula aula = aulaRepository.findByIdAula(idAula);
         if (aula == null) return null;
         // Convertir datos del aula
         AulaDto dto = convertir(aula);
         // Convertir datos de los alumnos del aula
-        if (convertirAlumnos) {
-            Set<Alumno> alumnos = aula.getAlumnos();
+        if (listarAlumnos) {
+            List<AulaAlumno> alumnos = aulaAlumnoRepository.listarPorAula(idAula);
             if (!Preconditions.isEmpty(alumnos)) {
-                List<Integer> listaIds = new ArrayList<>(alumnos.size());
-                for (Alumno alumno : alumnos) {
-                    listaIds.add(alumno.getIdAlumno());
+                List<AulaAlumnoDto> alumnosDto = new ArrayList<>(alumnos.size());
+                for (AulaAlumno aulaAlumno : alumnos) {
+                    AulaAlumnoDto alumnoDto = new AulaAlumnoDto();
+                    alumnoDto.setIdAulaAlumno(aulaAlumno.getIdAulaAlumno());
+                    alumnoDto.setIdAula(aulaAlumno.getAula().getIdAula());
+                    alumnoDto.setIdAlumno(aulaAlumno.getAlumno().getIdAlumno());
+                    alumnosDto.add(alumnoDto);
                 }
-                dto.setAlumnos(listaIds);
+                dto.setAlumnos(alumnosDto);
             }
         }
         return dto;
@@ -98,10 +109,10 @@ public class AulaService {
         AulaDto dto = new AulaDto();
         dto.setIdAula(aula.getIdAula());
         // Colocar datos del año de estudios
-        Anio anio = aula.getAnio();
+        Anio anio = Objects.requireNonNull(aula.getAnio());
         dto.setIdAnio(anio.getIdAnio());
         // Colocar datos del grado de estudios
-        Grado grado = aula.getGrado();
+        Grado grado = Objects.requireNonNull(aula.getGrado());
         dto.setIdGrado(grado.getIdGrado());
         dto.setNombreGrado(grado.getNombre());
         // Colocar datos del docente
@@ -114,19 +125,13 @@ public class AulaService {
     public void guardar(AulaDto dto) throws AppException {
         Aula aula = new Aula();
         // Validar e ingresar el ID del aula
-        Integer idAula = dto.getIdAula();
-        if (idAula != null) {
-            aula = aulaRepository.findByIdAula(idAula);
-            if (aula == null) {
-                throw new AppException("El ID del aula ingresado no existe.");
-            }
+        if (dto.getIdAula() != null) {
+            aula = Preconditions.checkNotNull(aulaRepository.findByIdAula(dto.getIdAula()),
+                    "El ID del aula ingresado no existe.");
         }
         // Validar e ingresar el año de estudios
-        Anio anio = anioRepository.findByIdAnio(dto.getIdAnio());
-        if (anio == null) {
-            throw new AppException("El año de estudios seleccionado no existe.");
-        }
-        aula.setAnio(anio);
+        aula.setAnio(Preconditions.checkNotNull(anioRepository.findByIdAnio(dto.getIdAnio()),
+                "El año de estudios seleccionado no existe."));
         // Validar e ingresar el grado de estudios
         Grado grado = gradoRepository.findByIdGrado(dto.getIdGrado());
         if (grado == null) {
@@ -140,21 +145,28 @@ public class AulaService {
         }
         aula.setDocente(docente);
         // Validar e ingresar la lista de alumnos
-        List<Integer> listaIdAlumno = dto.getAlumnos();
-        if (Preconditions.isEmpty(listaIdAlumno)) {
+        List<AulaAlumnoDto> alumnosDto = dto.getAlumnos();
+        if (Preconditions.isEmpty(alumnosDto)) {
             throw new AppException("Debe seleccionar al menos un alumno.");
         }
-        Set<Alumno> alumnos = new HashSet<>();
-        for (Integer idAlumno : listaIdAlumno) {
-            Alumno alumno = alumnoRepository.findByIdAlumno(idAlumno);
-            if (alumno == null) {
-                throw new AppException("El alumno con el ID " + idAlumno + " no existe.");
+        List<AulaAlumno> alumnos = new ArrayList<>(alumnosDto.size());
+        for (AulaAlumnoDto alumnoDto : alumnosDto) {
+            Alumno alumno = Preconditions.checkNotNull(alumnoRepository.findByIdAlumno(alumnoDto.getIdAlumno()),
+                    String.format("El alumno con el ID %d no existe.", alumnoDto.getIdAlumno()));
+            AulaAlumno aulaAlumno = new AulaAlumno();
+            if (aulaAlumno.getIdAulaAlumno() != null) {
+                aulaAlumno = Preconditions.checkNotNull(aulaAlumnoRepository.findByIdAulaAlumno(aulaAlumno.getIdAulaAlumno()),
+                        "No se encontró el aula-alumno con el ID especificado.");
             }
-            alumnos.add(alumno);
+            aulaAlumno.setAula(aula);
+            aulaAlumno.setAlumno(alumno);
+            alumnos.add(aulaAlumno);
         }
-        aula.setAlumnos(alumnos);
-        // Guardar el aula en la base de datos
+        // Guardar el aula y sus alumnos en la base de datos
         aulaRepository.save(aula);
+        for (AulaAlumno aulaAlumno : alumnos) {
+            aulaAlumnoRepository.save(aulaAlumno);
+        }
     }
 
     public Integer contarDocente(BusquedaDto busqueda) {
@@ -168,7 +180,7 @@ public class AulaService {
             List<AulaDto> listaDto = new ArrayList<>(aulas.size());
             for (Aula aula : aulas) {
                 AulaDto dto = convertir(aula);
-                dto.setNumAlumnos(aula.getAlumnos().size());
+                dto.setNumAlumnos(aulaAlumnoRepository.contarPorAula(aula.getIdAula()));
                 listaDto.add(dto);
             }
             return listaDto;
