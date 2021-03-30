@@ -1,6 +1,7 @@
 package com.colegio.alertas.controller;
 
 import com.colegio.alertas.dto.AlumnoDto;
+import com.colegio.alertas.dto.AulaAlumnoDto;
 import com.colegio.alertas.dto.AulaDto;
 import com.colegio.alertas.dto.BusquedaDto;
 import com.colegio.alertas.dto.BaseDto;
@@ -110,6 +111,20 @@ public class AulaController {
         return response;
     }
 
+    @PostMapping("/admin/aulas/eliminar")
+    @ResponseBody
+    public BaseDto eliminar(@RequestParam Integer idAula) {
+        BaseDto response = new BaseDto();
+        try {
+            aulaService.eliminar(idAula);
+        } catch (AppException ex) {
+            String msg = "No se pudo eliminar el aula. " + ex.getMessage();
+            LOG.log(Level.WARNING, msg, ex);
+            response.setError(true, msg);
+        }
+        return response;
+    }
+
     @GetMapping("/aulas")
     public String listaDocente() {
         return "docente/aulas/lista";
@@ -133,20 +148,6 @@ public class AulaController {
         return response;
     }
 
-    @PostMapping("/admin/aulas/eliminar")
-    @ResponseBody
-    public BaseDto eliminar(@RequestParam Integer idAula) {
-        BaseDto response = new BaseDto();
-        try {
-            aulaService.eliminar(idAula);
-        } catch (AppException ex) {
-            String msg = "No se pudo eliminar el aula. " + ex.getMessage();
-            LOG.log(Level.WARNING, msg, ex);
-            response.setError(true, msg);
-        }
-        return response;
-    }
-
     @GetMapping("/aulas/{idAula}")
     public String detalleDocente(@PathVariable Integer idAula) {
         return "docente/aulas/detalle";
@@ -165,6 +166,29 @@ public class AulaController {
         } catch (Exception ex) {
             String msg = "Hubo un error al buscar los alumnos del aula. " + ex.getMessage();
             LOG.log(Level.SEVERE, msg, ex);
+            response.setError(true, msg);
+        }
+        return response;
+    }
+
+    @GetMapping("/padre")
+    public String listarAlumnosPadre() {
+        return "padre/alumnos/lista";
+    }
+
+    @PostMapping("/padre/buscar")
+    @ResponseBody
+    public ResultadoDto<AulaAlumnoDto> buscarAlumnosPadre(@RequestBody BusquedaDto busqueda) {
+        ResultadoDto<AulaAlumnoDto> response = new ResultadoDto<>();
+        try {
+            response.setTotal(aulaService.contarAlumnosPadre(busqueda));
+            if (response.getTotal() > 0) {
+                response.setLista(aulaService.buscarAlumnosPadre(busqueda));
+                QueryUtils.setNumPaginas(busqueda, response);
+            }
+        } catch (Exception ex) {
+            String msg = "Hubo un error al buscar los alumnos del padre de familia.";
+            LOG.log(Level.SEVERE, msg + " " + ex.getMessage(), ex);
             response.setError(true, msg);
         }
         return response;

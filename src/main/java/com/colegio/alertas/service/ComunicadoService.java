@@ -53,7 +53,7 @@ public class ComunicadoService {
             }
             return listaDto;
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     public void guardar(ComunicadoDto dto) throws AppException {

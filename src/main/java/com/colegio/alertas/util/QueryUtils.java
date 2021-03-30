@@ -35,7 +35,10 @@ public final class QueryUtils {
     }
 
     public static Integer toInteger(Object column) {
-        return column == null ? null : ((Number) column).intValue();
+        if (column != null && column instanceof Number) {
+            return ((Number) column).intValue();
+        }
+        return null;
     }
 
 }

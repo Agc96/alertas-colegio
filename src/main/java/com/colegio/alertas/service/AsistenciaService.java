@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,7 +66,7 @@ public class AsistenciaService {
             }
             return listaDto;
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     public AsistenciaDto detalle(Integer idAsistencia, boolean colocarDetalles) {
@@ -139,14 +138,16 @@ public class AsistenciaService {
         }
     }
 
-    private DetalleAsistencia convertirDetalle(Asistencia asistencia, DetalleAsistenciaDto dto) throws AppException {
+    private DetalleAsistencia convertirDetalle(Asistencia asistencia, DetalleAsistenciaDto dto)
+            throws AppException {
         DetalleAsistencia detalle = new DetalleAsistencia();
         // Validar e ingresar el ID del detalle de asistencia
         Integer idDetalleAsistencia = dto.getIdDetalleAsistencia();
         if (idDetalleAsistencia != null) {
             detalle = detalleAsistenciaRepository.findByIdDetalleAsistencia(idDetalleAsistencia);
             if (detalle == null) {
-                throw new AppException("No se pudo encontrar el detalle de asistencia con el ID " + idDetalleAsistencia + ".");
+                throw new AppException("El detalle de asistencia con el ID "
+                        + idDetalleAsistencia + " no existe.");
             }
         }
         detalle.setAsistencia(asistencia);
@@ -180,4 +181,30 @@ public class AsistenciaService {
         }
         asistenciaRepository.delete(asistencia);
     }
+
+    public Integer contarPadre(BusquedaAulaDto busqueda) {
+        return detalleAsistenciaRepository.contarPadre(busqueda.getIdAula(),
+                busqueda.getIdAlumno(), busqueda.getTermino());
+    }
+
+    public List<DetalleAsistenciaDto> buscarPadre(BusquedaAulaDto busqueda) {
+        List<DetalleAsistencia> lista = detalleAsistenciaRepository.buscarPadre(busqueda.getIdAula(),
+                busqueda.getIdAlumno(), busqueda.getTermino(), QueryUtils.createPagination(busqueda));
+        if (!Preconditions.isEmpty(lista)) {
+            List<DetalleAsistenciaDto> listaDto = new ArrayList<>(lista.size());
+            for (DetalleAsistencia detalle : lista) {
+                DetalleAsistenciaDto dto = new DetalleAsistenciaDto();
+                dto.setIdDetalleAsistencia(detalle.getIdDetalleAsistencia());
+                dto.setIdAsistencia(detalle.getAsistencia().getIdAsistencia());
+                dto.setFecha(DateUtils.format(detalle.getAsistencia().getFecha()));
+                dto.setIdAlumno(detalle.getAlumno().getIdAlumno());
+                dto.setIdEstadoAsistencia(detalle.getEstadoAsistencia().getId());
+                dto.setNombreEstadoAsistencia(detalle.getEstadoAsistencia().getNombre());
+                listaDto.add(dto);
+            }
+            return listaDto;
+        }
+        return Collections.emptyList();
+    }
+
 }

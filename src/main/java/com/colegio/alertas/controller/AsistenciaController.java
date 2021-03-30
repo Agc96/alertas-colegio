@@ -1,15 +1,15 @@
 package com.colegio.alertas.controller;
 
 import com.colegio.alertas.dto.AsistenciaDto;
-import com.colegio.alertas.dto.AulaDto;
 import com.colegio.alertas.dto.BaseDto;
 import com.colegio.alertas.dto.BusquedaAulaDto;
+import com.colegio.alertas.dto.DetalleAsistenciaDto;
 import com.colegio.alertas.dto.ResultadoDto;
 import com.colegio.alertas.service.AsistenciaService;
 import com.colegio.alertas.service.AulaService;
+import com.colegio.alertas.service.CommonService;
 import com.colegio.alertas.util.AppException;
 import com.colegio.alertas.util.QueryUtils;
-import com.colegio.alertas.util.SecurityUtils;
 import com.colegio.alertas.util.enums.EstadoAsistencia;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,9 +40,12 @@ public class AsistenciaController {
     @Autowired
     private AulaService aulaService;
 
+    @Autowired
+    private CommonService commonService;
+
     @GetMapping("/aulas/{idAula}/asistencia")
     public String listar(Model model, @PathVariable Integer idAula) {
-        model.addAttribute("aula", validarAula(idAula));
+        commonService.validarAula(model, idAula);
         return "docente/asistencia/lista";
     }
 
@@ -64,18 +67,6 @@ public class AsistenciaController {
         return response;
     }
 
-    public AulaDto validarAula(Integer idAula) {
-        AulaDto aula = aulaService.detalle(idAula, false);
-        if (aula == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        String docente = aula.getNombreUsuarioDocente();
-        if (!docente.equals(SecurityUtils.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-        return aula;
-    }
-
     @GetMapping("/aulas/{idAula}/asistencia/nuevo")
     public String nuevo(Model model, @PathVariable Integer idAula) {
         return registro(model, idAula);
@@ -83,18 +74,6 @@ public class AsistenciaController {
 
     @GetMapping("/aulas/{idAula}/asistencia/{idAsistencia}")
     public String editar(Model model, @PathVariable Integer idAula, @PathVariable Integer idAsistencia) {
-        validarAsistencia(idAula, idAsistencia);
-        model.addAttribute("idAsistencia", idAsistencia);
-        return registro(model, idAula);
-    }
-
-    private String registro(Model model, Integer idAula) {
-        model.addAttribute("aula", validarAula(idAula));
-        model.addAttribute("estados", EstadoAsistencia.values());
-        return "docente/asistencia/registro";
-    }
-
-    private void validarAsistencia(Integer idAula, Integer idAsistencia) {
         AsistenciaDto asistencia = asistenciaService.detalle(idAsistencia, false);
         if (asistencia == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -102,6 +81,14 @@ public class AsistenciaController {
         if (!asistencia.getIdAula().equals(idAula)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
+        model.addAttribute("idAsistencia", idAsistencia);
+        return registro(model, idAula);
+    }
+
+    private String registro(Model model, Integer idAula) {
+        commonService.validarAula(model, idAula);
+        model.addAttribute("estados", EstadoAsistencia.values());
+        return "docente/asistencia/registro";
     }
 
     @PostMapping("/docente/asistencia/guardar")
@@ -134,6 +121,31 @@ public class AsistenciaController {
         } catch (AppException ex) {
             String msg = "No se pudo eliminar la asistencia. " + ex.getMessage();
             LOG.log(Level.WARNING, msg, ex);
+            response.setError(true, msg);
+        }
+        return response;
+    }
+
+    @GetMapping("/padre/{idAlumno}/{idAula}/asistencia")
+    public String listarPadre(Model model, @PathVariable Integer idAlumno,
+            @PathVariable Integer idAula) {
+        commonService.validarAulaAlumno(model, idAula, idAlumno);
+        return "padre/asistencia/lista";
+    }
+
+    @PostMapping("/padre/asistencia/buscar")
+    @ResponseBody
+    public ResultadoDto<DetalleAsistenciaDto> buscarPadre(@RequestBody BusquedaAulaDto busqueda) {
+        ResultadoDto<DetalleAsistenciaDto> response = new ResultadoDto<>();
+        try {
+            response.setTotal(asistenciaService.contarPadre(busqueda));
+            if (response.getTotal() > 0) {
+                response.setLista(asistenciaService.buscarPadre(busqueda));
+                QueryUtils.setNumPaginas(busqueda, response);
+            }
+        } catch (Exception ex) {
+            String msg = "Hubo un problema al buscar la lista de asistencias del alumno.";
+            LOG.log(Level.SEVERE, msg + " " + ex.getMessage(), ex);
             response.setError(true, msg);
         }
         return response;

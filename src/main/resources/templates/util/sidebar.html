@@ -8,7 +8,7 @@
 <body>
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" th:fragment="sidebar">
         <!-- Logotipo del sistema -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
             <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-bell"></i></div>
             <div class="sidebar-brand-text mx-3">Alertas</div>
         </a>
@@ -36,6 +36,13 @@
         <li class="nav-item" sec:authorize="hasAuthority('DOCENTE')">
             <a class="nav-link" href="/aulas">
                 <i class="fas fa-fw fa-chart-area"></i> <span>Lista de aulas asignadas</span>
+            </a>
+        </li>
+        <!-- Funcionalidades del padre de familia -->
+        <div class="sidebar-heading" sec:authorize="hasAuthority('PADRE')">Padre de familia</div>
+        <li class="nav-item" sec:authorize="hasAuthority('PADRE')">
+            <a class="nav-link" href="/padre">
+                <i class="fas fa-fw fa-chart-area"></i> <span>Lista de aulas de alumnos</span>
             </a>
         </li>
         <!-- li class="nav-item">

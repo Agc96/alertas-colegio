@@ -61,7 +61,7 @@ public class UsuarioService implements UserDetailsService {
             }
             return listaDto;
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     public void crear(UsuarioDto dto) throws AppException {
@@ -164,7 +164,7 @@ public class UsuarioService implements UserDetailsService {
             }
             return listaDto;
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     @Override

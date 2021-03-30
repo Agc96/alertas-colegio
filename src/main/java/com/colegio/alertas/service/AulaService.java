@@ -1,6 +1,7 @@
 package com.colegio.alertas.service;
 
 import com.colegio.alertas.dto.AlumnoDto;
+import com.colegio.alertas.dto.AulaAlumnoDto;
 import com.colegio.alertas.dto.AulaDto;
 import com.colegio.alertas.dto.BusquedaAulaDto;
 import com.colegio.alertas.dto.BusquedaDto;
@@ -68,7 +69,7 @@ public class AulaService {
             }
             return listaDto;
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     public boolean existe(Integer idAula) {
@@ -173,7 +174,7 @@ public class AulaService {
             }
             return listaDto;
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     public Integer contarAlumnos(BusquedaAulaDto busqueda) {
@@ -204,7 +205,7 @@ public class AulaService {
             }
             return listaDto;
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     public void eliminar(Integer idAula) throws AppException {
@@ -213,6 +214,33 @@ public class AulaService {
             throw new AppException("El ID del aula ingresado no existe.");
         }
         aulaRepository.delete(aula);
+    }
+
+    public Integer contarAlumnosPadre(BusquedaDto busqueda) {
+        return aulaRepository.contarAlumnosPadre(busqueda.getTermino(),
+                SecurityUtils.getUsername());
+    }
+
+    public List<AulaAlumnoDto> buscarAlumnosPadre(BusquedaDto busqueda) {
+        List<Object[]> alumnos = aulaRepository.buscarAlumnosPadre(busqueda.getTermino(),
+                SecurityUtils.getUsername(), QueryUtils.createPagination(busqueda));
+        if (!Preconditions.isEmpty(alumnos)) {
+            List<AulaAlumnoDto> alumnosDto = new ArrayList<>(alumnos.size());
+            for (Object[] alumno : alumnos) {
+                AulaAlumnoDto alumnoDto = new AulaAlumnoDto();
+                alumnoDto.setIdAlumno(QueryUtils.toInteger(alumno[0]));
+                alumnoDto.setDniAlumno(QueryUtils.toString(alumno[1]));
+                alumnoDto.setNombresAlumno(QueryUtils.toString(alumno[2]));
+                alumnoDto.setApellidosAlumno(QueryUtils.toString(alumno[3]));
+                alumnoDto.setIdAula(QueryUtils.toInteger(alumno[4]));
+                alumnoDto.setIdAnio(QueryUtils.toInteger(alumno[5]));
+                alumnoDto.setIdGrado(QueryUtils.toInteger(alumno[6]));
+                alumnoDto.setNombreGrado(QueryUtils.toString(alumno[7]));
+                alumnosDto.add(alumnoDto);
+            }
+            return alumnosDto;
+        }
+        return Collections.emptyList();
     }
 
 }

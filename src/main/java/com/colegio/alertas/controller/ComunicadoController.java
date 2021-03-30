@@ -1,19 +1,16 @@
 package com.colegio.alertas.controller;
 
-import com.colegio.alertas.dto.AulaDto;
 import com.colegio.alertas.dto.BaseDto;
 import com.colegio.alertas.dto.BusquedaAulaDto;
 import com.colegio.alertas.dto.ComunicadoDto;
 import com.colegio.alertas.dto.ResultadoDto;
-import com.colegio.alertas.service.AulaService;
+import com.colegio.alertas.service.CommonService;
 import com.colegio.alertas.service.ComunicadoService;
 import com.colegio.alertas.util.AppException;
 import com.colegio.alertas.util.QueryUtils;
-import com.colegio.alertas.util.SecurityUtils;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  *
@@ -34,22 +30,14 @@ public class ComunicadoController {
     private static final Logger LOG = Logger.getLogger(ComunicadoController.class.getName());
 
     @Autowired
-    private AulaService aulaService;
+    private ComunicadoService comunicadoService;
 
     @Autowired
-    private ComunicadoService comunicadoService;
+    private CommonService commonService;
 
     @GetMapping("/aulas/{idAula}/comunicados")
     public String listar(Model model, @PathVariable Integer idAula) {
-        AulaDto aula = aulaService.detalle(idAula, false);
-        if (aula == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        String docente = aula.getNombreUsuarioDocente();
-        if (!docente.equals(SecurityUtils.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-        model.addAttribute("aula", aula);
+        commonService.validarAula(model, idAula);
         return "docente/comunicados/lista";
     }
 
@@ -97,6 +85,19 @@ public class ComunicadoController {
             response.setError(true, msg);
         }
         return response;
+    }
+
+    @GetMapping("/padre/{idAlumno}/{idAula}/comunicados")
+    public String listarPadre(Model model, @PathVariable Integer idAlumno,
+            @PathVariable Integer idAula) {
+        commonService.validarAulaAlumno(model, idAula, idAlumno);
+        return "padre/comunicados/lista";
+    }
+
+    @PostMapping("/padre/comunicados/buscar")
+    @ResponseBody
+    public ResultadoDto<ComunicadoDto> buscarPadre(@RequestBody BusquedaAulaDto busqueda) {
+        return buscar(busqueda);
     }
 
 }

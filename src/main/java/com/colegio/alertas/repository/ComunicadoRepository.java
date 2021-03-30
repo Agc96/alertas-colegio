@@ -20,14 +20,12 @@ public interface ComunicadoRepository extends JpaRepository<Comunicado, Integer>
     @Query("SELECT COUNT(c) FROM Comunicado c "
             + "WHERE (c.titulo LIKE CONCAT('%', :termino, '%')"
             + "    OR c.fecha LIKE CONCAT('%', :termino, '%'))"
-            // + "    OR c.descripcion LIKE CONCAT('%', :termino, '%'))"
             + "  AND (c.aula.idAula = :idAula)")
     Integer contar(@Param("idAula") Integer idAula, @Param("termino") String termino);
 
     @Query("SELECT c FROM Comunicado c "
             + "WHERE (c.titulo LIKE CONCAT('%', :termino, '%')"
             + "    OR c.fecha LIKE CONCAT('%', :termino, '%'))"
-            // + "    OR c.descripcion LIKE CONCAT('%', :termino, '%'))"
             + "   AND c.aula.idAula = :idAula")
     List<Comunicado> buscar(@Param("idAula") Integer idAula,
             @Param("termino") String termino, Pageable pageable);

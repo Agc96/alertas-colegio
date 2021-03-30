@@ -37,7 +37,7 @@ public class Aula implements Serializable {
     private Grado grado;
 
     @ManyToOne
-    @JoinColumn(name = "id_docente", nullable = false)
+    @JoinColumn(name = "docente", nullable = false)
     private Usuario docente;
 
     @ManyToMany

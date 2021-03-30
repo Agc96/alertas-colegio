@@ -3,7 +3,6 @@ package com.colegio.alertas.controller;
 import com.colegio.alertas.dto.AlumnoDto;
 import com.colegio.alertas.dto.BusquedaDto;
 import com.colegio.alertas.dto.BaseDto;
-import com.colegio.alertas.dto.BusquedaAulaDto;
 import com.colegio.alertas.dto.ResultadoDto;
 import java.util.logging.Level;
 import java.util.logging.Logger;

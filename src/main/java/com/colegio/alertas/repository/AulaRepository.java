@@ -74,4 +74,32 @@ public interface AulaRepository extends JpaRepository<Aula, Integer> {
     List<Object[]> buscarAlumnos(@Param("termino") String termino,
             @Param("idAula") Integer idAula, Pageable pageable);
 
+    @Query(value = "SELECT COUNT(*) FROM sa_aula_alumno aa "
+            + "INNER JOIN sa_alumno a ON a.id_alumno = aa.id_alumno "
+            + "INNER JOIN sa_aula al ON al.id_aula = aa.id_aula "
+            + "INNER JOIN sa_grado g ON g.id_grado = al.id_grado "
+            + "WHERE (a.dni LIKE CONCAT('%', :termino, '%') "
+            + "    OR a.nombres LIKE CONCAT('%', :termino, '%') "
+            + "    OR a.apellidos LIKE CONCAT('%', :termino, '%') "
+            + "    OR g.nombre LIKE CONCAT('%', :termino, '%') "
+            + "    OR al.id_anio LIKE CONCAT('%', :termino, '%')) "
+            + "AND a.padre = :padre", nativeQuery = true)
+    Integer contarAlumnosPadre(@Param("termino") String termino,
+            @Param("padre") String padre);
+
+    @Query(value = "SELECT a.id_alumno, a.dni, a.nombres, a.apellidos, "
+            + "al.id_aula, al.id_anio, al.id_grado, g.nombre "
+            + "FROM sa_aula_alumno aa "
+            + "INNER JOIN sa_alumno a ON a.id_alumno = aa.id_alumno "
+            + "INNER JOIN sa_aula al ON al.id_aula = aa.id_aula "
+            + "INNER JOIN sa_grado g ON g.id_grado = al.id_grado "
+            + "WHERE (a.dni LIKE CONCAT('%', :termino, '%') "
+            + "    OR a.nombres LIKE CONCAT('%', :termino, '%') "
+            + "    OR a.apellidos LIKE CONCAT('%', :termino, '%') "
+            + "    OR g.nombre LIKE CONCAT('%', :termino, '%') "
+            + "    OR al.id_anio LIKE CONCAT('%', :termino, '%')) "
+            + "AND a.padre = :padre", nativeQuery = true)
+    List<Object[]> buscarAlumnosPadre(@Param("termino") String termino,
+            @Param("padre") String padre, Pageable pageable);
+
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sistema de Alertas</title>
+</head>
+<body>
+    <script id="comunicadoTemplate" type="text/mustache" th:fragment="template">
+        <div class="col-xl-6 col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="mb-0 font-weight-bold text-primary">{{titulo}}</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>Fecha:</strong> {{fecha}}</p>
+                    <p>{{{descripcionHtml}}}</p>
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+</html>

@@ -42,7 +42,7 @@ public class Alumno implements Serializable {
     private Date fechaNacimiento;
 
     @ManyToOne
-    @JoinColumn(name = "id_padre", nullable = false)
+    @JoinColumn(name = "padre", nullable = false)
     private Usuario padre;
 
     public Integer getIdAlumno() {

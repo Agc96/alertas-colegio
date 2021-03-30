@@ -2,14 +2,11 @@ package com.colegio.alertas.service;
 
 import com.colegio.alertas.dto.BusquedaAulaDto;
 import com.colegio.alertas.dto.IncidenciaDto;
-import com.colegio.alertas.dto.IncidenciaDto;
 import com.colegio.alertas.entity.Alumno;
 import com.colegio.alertas.entity.Aula;
 import com.colegio.alertas.entity.Incidencia;
-import com.colegio.alertas.entity.Incidencia;
 import com.colegio.alertas.repository.AlumnoRepository;
 import com.colegio.alertas.repository.AulaRepository;
-import com.colegio.alertas.repository.IncidenciaRepository;
 import com.colegio.alertas.repository.IncidenciaRepository;
 import com.colegio.alertas.util.AppException;
 import com.colegio.alertas.util.DateUtils;
@@ -44,8 +41,11 @@ public class IncidenciaService {
     }
 
     public List<IncidenciaDto> buscar(BusquedaAulaDto busqueda) {
-        List<Incidencia> incidencias = incidenciaRepository.buscar(busqueda.getIdAula(),
-                busqueda.getTermino(), QueryUtils.createPagination(busqueda));
+        return convertir(incidenciaRepository.buscar(busqueda.getIdAula(),
+                busqueda.getTermino(), QueryUtils.createPagination(busqueda)));
+    }
+
+    private List<IncidenciaDto> convertir(List<Incidencia> incidencias) {
         if (!Preconditions.isEmpty(incidencias)) {
             List<IncidenciaDto> listaDto = new ArrayList<>(incidencias.size());
             for (Incidencia incidencia : incidencias) {
@@ -53,17 +53,18 @@ public class IncidenciaService {
                 dto.setIdIncidencia(incidencia.getIdIncidencia());
                 dto.setIdAula(incidencia.getAula().getIdAula());
                 dto.setFecha(DateUtils.format(incidencia.getFecha()));
-                dto.setIdAlumno(incidencia.getAlumno().getIdAlumno());
-                dto.setDniAlumno(incidencia.getAlumno().getDni());
-                dto.setNombresAlumno(incidencia.getAlumno().getNombres());
-                dto.setApellidosAlumno(incidencia.getAlumno().getApellidos());
+                Alumno alumno = incidencia.getAlumno();
+                dto.setIdAlumno(alumno.getIdAlumno());
+                dto.setDniAlumno(alumno.getDni());
+                dto.setNombresAlumno(alumno.getNombres());
+                dto.setApellidosAlumno(alumno.getApellidos());
                 dto.setDescripcion(incidencia.getDescripcion());
                 dto.setDescripcionHtml(HtmlUtils.escape(incidencia.getDescripcion()));
                 listaDto.add(dto);
             }
             return listaDto;
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     public void guardar(IncidenciaDto dto) throws AppException {
@@ -110,6 +111,17 @@ public class IncidenciaService {
             throw new AppException("La incidencia con el ID especificado no existe.");
         }
         incidenciaRepository.delete(incidencia);
+    }
+
+    public Integer contarPadre(BusquedaAulaDto busqueda) {
+        return incidenciaRepository.contarPadre(busqueda.getIdAula(),
+                busqueda.getIdAlumno(), busqueda.getTermino());
+    }
+
+    public List<IncidenciaDto> buscarPadre(BusquedaAulaDto busqueda) {
+        return convertir(incidenciaRepository.buscarPadre(busqueda.getIdAula(),
+                busqueda.getIdAlumno(), busqueda.getTermino(),
+                QueryUtils.createPagination(busqueda)));
     }
 
 }

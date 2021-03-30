@@ -41,20 +41,11 @@ public class AlumnoService {
         if (!Preconditions.isEmpty(alumnos)) {
             List<AlumnoDto> listaDto = new ArrayList<>(alumnos.size());
             for (Alumno alumno : alumnos) {
-                AlumnoDto dto = new AlumnoDto();
-                dto.setIdAlumno(alumno.getIdAlumno());
-                dto.setNombres(alumno.getNombres());
-                dto.setDni(alumno.getDni());
-                dto.setApellidos(alumno.getApellidos());
-                dto.setFechaNacimiento(DateUtils.format(alumno.getFechaNacimiento()));
-                Usuario padre = alumno.getPadre();
-                dto.setNombreUsuarioPadre(padre.getNombreUsuario());
-                dto.setNombreCompletoPadre(padre.getNombres() + " " + padre.getApellidos());
-                listaDto.add(dto);
+                listaDto.add(convertir(alumno));
             }
             return listaDto;
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     public void guardar(AlumnoDto dto) throws AppException {
@@ -110,6 +101,24 @@ public class AlumnoService {
             throw new AppException("El alumno ingresado no existe.");
         }
         alumnoRepository.delete(alumno);
+    }
+
+    public AlumnoDto detalle(Integer idAlumno) {
+        Alumno alumno = alumnoRepository.findByIdAlumno(idAlumno);
+        return alumno == null ? null : convertir(alumno);
+    }
+
+    private AlumnoDto convertir(Alumno alumno) {
+        AlumnoDto dto = new AlumnoDto();
+        dto.setIdAlumno(alumno.getIdAlumno());
+        dto.setNombres(alumno.getNombres());
+        dto.setDni(alumno.getDni());
+        dto.setApellidos(alumno.getApellidos());
+        dto.setFechaNacimiento(DateUtils.format(alumno.getFechaNacimiento()));
+        Usuario padre = alumno.getPadre();
+        dto.setNombreUsuarioPadre(padre.getNombreUsuario());
+        dto.setNombreCompletoPadre(padre.getNombres() + " " + padre.getApellidos());
+        return dto;
     }
 
 }

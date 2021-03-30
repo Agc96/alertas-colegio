@@ -11,7 +11,9 @@ public class DetalleAsistenciaDto extends BaseDto {
     private Integer idDetalleAsistencia;
     private Integer idAsistencia;
     private Integer idAlumno;
+    private String fecha;
     private Integer idEstadoAsistencia;
+    private String nombreEstadoAsistencia;
 
     public Integer getIdDetalleAsistencia() {
         return idDetalleAsistencia;
@@ -34,11 +36,25 @@ public class DetalleAsistenciaDto extends BaseDto {
         this.idAlumno = idAlumno;
     }
 
+    public String getFecha() {
+        return fecha;
+    }
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
     public Integer getIdEstadoAsistencia() {
         return idEstadoAsistencia;
     }
     public void setIdEstadoAsistencia(Integer idEstadoAsistencia) {
         this.idEstadoAsistencia = idEstadoAsistencia;
+    }
+
+    public String getNombreEstadoAsistencia() {
+        return nombreEstadoAsistencia;
+    }
+    public void setNombreEstadoAsistencia(String nombreEstadoAsistencia) {
+        this.nombreEstadoAsistencia = nombreEstadoAsistencia;
     }
 
 }

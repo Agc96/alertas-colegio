@@ -34,4 +34,20 @@ public interface IncidenciaRepository extends JpaRepository<Incidencia, Integer>
     List<Incidencia> buscar(@Param("idAula") Integer idAula,
             @Param("termino") String termino, Pageable pageable);
 
+    @Query("SELECT COUNT(i) FROM Incidencia i "
+            + "WHERE i.fecha LIKE CONCAT('%', :termino, '%') "
+            + "AND i.aula.idAula = :idAula "
+            + "AND i.alumno.idAlumno = :idAlumno")
+    Integer contarPadre(@Param("idAula") Integer idAula,
+            @Param("idAlumno") Integer idAlumno,
+            @Param("termino") String termino);
+
+    @Query("SELECT i FROM Incidencia i "
+            + "WHERE i.fecha LIKE CONCAT('%', :termino, '%') "
+            + "AND i.aula.idAula = :idAula "
+            + "AND i.alumno.idAlumno = :idAlumno")
+    List<Incidencia> buscarPadre(@Param("idAula") Integer idAula,
+            @Param("idAlumno") Integer idAlumno,
+            @Param("termino") String termino, Pageable pageable);
+
 }

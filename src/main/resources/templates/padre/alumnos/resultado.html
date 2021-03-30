@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sistema de Alertas</title>
+</head>
+<body>
+    <script id="aulaAlumnoTemplate" type="text/mustache" th:fragment="template">
+        <div class="col-xl-6 col-12">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div><strong>DNI del alumno:</strong> {{dniAlumno}}</div>
+                    <div><strong>Nombre completo:</strong> {{nombresAlumno}} {{apellidosAlumno}}</div>
+                    <div><strong>Año de estudios:</strong> {{idAnio}}</div>
+                    <div><strong>Grado de estudios:</strong> {{nombreGrado}}</div>
+                    <div class="text-right">
+                        <a class="btn btn-sm btn-primary mt-2" href="/padre/{{idAlumno}}/{{idAula}}/asistencia">
+                            <i class="fas fa-tasks"></i> Asistencias
+                        </a>
+                        <a class="btn btn-sm btn-success mt-2" href="/padre/{{idAlumno}}/{{idAula}}/comunicados">
+                            <i class="fas fa-comment-alt"></i> Comunicados
+                        </a>
+                        <a class="btn btn-sm btn-danger mt-2" href="/padre/{{idAlumno}}/{{idAula}}/incidencias">
+                            <i class="fas fa-book"></i> Incidencias
+                        </a>
+                        <a class="btn btn-sm btn-dark mt-2" href="/padre/{{idAlumno}}/{{idAula}}/entrevistas">
+                            <i class="fas fa-calendar-check"></i> Entrevistas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+</html>
