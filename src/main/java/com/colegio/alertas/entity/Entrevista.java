@@ -39,6 +39,9 @@ public class Entrevista implements Serializable {
     @JoinColumn(name = "id_alumno", nullable = false)
     private Alumno alumno;
 
+    @Column(nullable = false)
+    private String motivo;
+
     public Integer getIdEntrevista() {
         return idEntrevista;
     }
@@ -65,6 +68,13 @@ public class Entrevista implements Serializable {
     }
     public void setAlumno(Alumno alumno) {
         this.alumno = alumno;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
     }
 
 }

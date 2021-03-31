@@ -15,11 +15,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EntrevistaRepository extends JpaRepository<Entrevista, Integer> {
 
+    Entrevista findByIdEntrevista(Integer idEntrevista);
+
     @Query("SELECT COUNT(e) FROM Entrevista e "
             + "WHERE (e.fecha LIKE CONCAT('%', :termino, '%') "
-            + "   AND e.alumno.dni LIKE CONCAT('%', :termino, '%') "
-            + "   AND e.alumno.nombres LIKE CONCAT('%', :termino, '%') "
-            + "   AND e.alumno.apellidos LIKE CONCAT('%', :termino, '%')) "
+            + "    OR e.alumno.dni LIKE CONCAT('%', :termino, '%') "
+            + "    OR e.alumno.nombres LIKE CONCAT('%', :termino, '%') "
+            + "    OR e.alumno.apellidos LIKE CONCAT('%', :termino, '%')) "
             + "AND e.aula.idAula = :idAula")
     Integer contarDocente(
             @Param("idAula") Integer idAula,
@@ -28,9 +30,9 @@ public interface EntrevistaRepository extends JpaRepository<Entrevista, Integer>
 
     @Query("SELECT e FROM Entrevista e "
             + "WHERE (e.fecha LIKE CONCAT('%', :termino, '%') "
-            + "   AND e.alumno.dni LIKE CONCAT('%', :termino, '%') "
-            + "   AND e.alumno.nombres LIKE CONCAT('%', :termino, '%') "
-            + "   AND e.alumno.apellidos LIKE CONCAT('%', :termino, '%')) "
+            + "    OR e.alumno.dni LIKE CONCAT('%', :termino, '%') "
+            + "    OR e.alumno.nombres LIKE CONCAT('%', :termino, '%') "
+            + "    OR e.alumno.apellidos LIKE CONCAT('%', :termino, '%')) "
             + "AND e.aula.idAula = :idAula")
     List<Entrevista> buscarDocente(
             @Param("idAula") Integer idAula,

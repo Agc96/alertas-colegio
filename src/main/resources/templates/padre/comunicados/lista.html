@@ -19,9 +19,9 @@
                     <!-- Título de la página -->
                     <h1 class="h3 mb-2 text-gray-800">Lista de comunicados registrados</h1>
                     <div class="row">
-                        <div class="col-sm"><strong>Alumno:</strong> <span th:text="${alumno.nombres} + ' ' + ${alumno.apellidos}"></span></div>
-                        <div class="col-sm"><strong>Año:</strong> <span th:text="${aula.idAnio}"></span></div>
-                        <div class="col-sm"><strong>Grado:</strong> <span th:text="${aula.nombreGrado}"></span></div>
+                        <div class="col-xl-6"><strong>Alumno:</strong> <span th:text="${alumno.nombres} + ' ' + ${alumno.apellidos}"></span></div>
+                        <div class="col-xl-3 col-sm-6"><strong>Año:</strong> <span th:text="${aula.idAnio}"></span></div>
+                        <div class="col-xl-3 col-sm-6"><strong>Grado:</strong> <span th:text="${aula.nombreGrado}"></span></div>
                     </div>
                     <!-- Formulario de búsqueda -->
                     <form id="formBusqueda" class="navbar-search my-4">

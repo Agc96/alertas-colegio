@@ -17,18 +17,16 @@
                 <!-- Contenido de la página -->
                 <div class="container-fluid mt-4">
                     <!-- Título de la página -->
-                    <h1 class="h3 mb-2 text-gray-800">Lista de incidencias registradas</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Lista de entrevistas registradas</h1>
                     <div class="row">
-                        <div class="col-xl-6"><strong>Alumno:</strong> <span th:text="${alumno.nombres} + ' ' + ${alumno.apellidos}"></span></div>
-                        <div class="col-xl-3 col-sm-6"><strong>Año:</strong> <span th:text="${aula.idAnio}"></span></div>
-                        <div class="col-xl-3 col-sm-6"><strong>Grado:</strong> <span th:text="${aula.nombreGrado}"></span></div>
+                        <div class="col-sm"><strong>Año:</strong> <span th:text="${aula.idAnio}"></span></div>
+                        <div class="col-sm"><strong>Grado:</strong> <span th:text="${aula.nombreGrado}"></span></div>
                     </div>
                     <!-- Formulario de búsqueda -->
                     <form id="formBusqueda" class="navbar-search my-4">
                         <input type="hidden" id="busquedaIdAula" th:value="${aula.idAula}" />
-                        <input type="hidden" id="busquedaIdAlumno" th:value="${alumno.idAlumno}" />
                         <div class="input-group">
-                            <input type="text" id="inputBusqueda" class="form-control bg-white" aria-label="Buscar" placeholder="Buscar por fecha, DNI, apellidos o nombres..."/>
+                            <input type="text" id="inputBusqueda" class="form-control bg-white" aria-label="Buscar" placeholder="Buscar por fecha, DNI, nombres o apellidos..."/>
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit"><i class="fas fa-search fa-sm"></i></button>
                             </div>
@@ -41,7 +39,7 @@
                     <nav th:replace="util/pagination :: pagination"></nav>
                     <!-- Botones -->
                     <div class="text-center mb-4">
-                        <a class="btn btn-sm btn-secondary" href="/padre">Volver a la lista de aulas de alumnos</a>
+                        <a class="btn btn-sm btn-secondary" href="/aulas">Volver a la lista de aulas</a>
                     </div>
                 </div>
                 <!-- Fin del contenido de la página -->
@@ -56,7 +54,7 @@
     <script src="/js/vendor/sb-admin-2.min.js"></script>
     <script src="/js/vendor/mustache.min.js"></script>
     <script src="/js/utilidades.js"></script>
-    <script src="/js/padre/incidencias.js"></script>
-    <script th:replace="padre/incidencias/resultado :: template"></script>
+    <script src="/js/docente/entrevistas.js"></script>
+    <script th:replace="docente/entrevistas/resultado :: template"></script>
 </body>
 </html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sistema de Alertas</title>
+</head>
+<body>
+    <script id="entrevistaTemplate" type="text/mustache" th:fragment="template">
+        <div class="col-xl-6 col-12">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div><strong>Fecha:</strong> {{fecha}}</div>
+                    <div><strong>Alumno:</strong> {{nombresAlumno}} {{apellidosAlumno}}</div>
+                    <div><strong>Padre de familia:</strong> {{nombresPadre}} {{apellidosPadre}}</div>
+                    <p class="mt-2">{{{motivoHtml}}}</p>
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+</html>

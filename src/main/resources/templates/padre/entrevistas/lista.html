@@ -17,18 +17,27 @@
                 <!-- Contenido de la página -->
                 <div class="container-fluid mt-4">
                     <!-- Título de la página -->
-                    <h1 class="h3 mb-2 text-gray-800">Lista de incidencias registradas</h1>
-                    <div class="row">
-                        <div class="col-xl-6"><strong>Alumno:</strong> <span th:text="${alumno.nombres} + ' ' + ${alumno.apellidos}"></span></div>
-                        <div class="col-xl-3 col-sm-6"><strong>Año:</strong> <span th:text="${aula.idAnio}"></span></div>
-                        <div class="col-xl-3 col-sm-6"><strong>Grado:</strong> <span th:text="${aula.nombreGrado}"></span></div>
+                    <div class="row align-items-center mb-4">
+                        <div class="col-lg mb-lg-0 mb-2">
+                            <h1 class="h3 mb-2 text-gray-800">Lista de entrevistas registradas</h1>
+                            <div class="row">
+                                <div class="col-xl-6"><strong>Alumno:</strong> <span th:text="${alumno.nombres} + ' ' + ${alumno.apellidos}"></span></div>
+                                <div class="col-xl-3 col-sm-6"><strong>Año:</strong> <span th:text="${aula.idAnio}"></span></div>
+                                <div class="col-xl-3 col-sm-6"><strong>Grado:</strong> <span th:text="${aula.nombreGrado}"></span></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-auto text-right">
+                            <button class="btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#registroModal">
+                                <i class="fas fa-plus fa-sm text-white-50"></i> Nueva entrevista
+                            </button>
+                        </div>
                     </div>
                     <!-- Formulario de búsqueda -->
                     <form id="formBusqueda" class="navbar-search my-4">
                         <input type="hidden" id="busquedaIdAula" th:value="${aula.idAula}" />
                         <input type="hidden" id="busquedaIdAlumno" th:value="${alumno.idAlumno}" />
                         <div class="input-group">
-                            <input type="text" id="inputBusqueda" class="form-control bg-white" aria-label="Buscar" placeholder="Buscar por fecha, DNI, apellidos o nombres..."/>
+                            <input type="text" id="inputBusqueda" class="form-control bg-white" aria-label="Buscar" placeholder="Buscar por título o fecha..."/>
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit"><i class="fas fa-search fa-sm"></i></button>
                             </div>
@@ -52,11 +61,14 @@
     </div>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    <!-- Modal de creación de un usuario -->
+    <div th:replace="padre/entrevistas/registro :: registroModal"></div>
     <!-- Scripts de JavaScript -->
     <script src="/js/vendor/sb-admin-2.min.js"></script>
+    <script src="/js/vendor/jquery-ui.min.js"></script>
     <script src="/js/vendor/mustache.min.js"></script>
     <script src="/js/utilidades.js"></script>
-    <script src="/js/padre/incidencias.js"></script>
-    <script th:replace="padre/incidencias/resultado :: template"></script>
+    <script src="/js/padre/entrevistas.js"></script>
+    <script th:replace="padre/entrevistas/resultado :: template"></script>
 </body>
 </html>
