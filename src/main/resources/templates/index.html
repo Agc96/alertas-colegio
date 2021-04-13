@@ -17,8 +17,73 @@
                 <!-- Contenido de la página -->
                 <div class="container-fluid mt-4">
                     <!-- Título de la página -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Página principal</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Página principal</h1>
+                    <!-- Botones del administrador -->
+                    <div class="row" sec:authorize="hasAuthority('ADMIN')">
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <h5>Mantenimiento de usuarios</h5>
+                                    <a class="btn btn-sm btn-primary" href="/admin/usuarios">Ir</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <h5>Mantenimiento de alumnos</h5>
+                                    <a class="btn btn-sm btn-primary" href="/admin/alumnos">Ir</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <h5>Asignación de aulas</h5>
+                                    <a class="btn btn-sm btn-primary" href="/admin/aulas">Ir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Funcionalidades del docente -->
+                    <div class="row" sec:authorize="hasAuthority('DOCENTE')">
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <h5>Lista de aulas asignadas</h5>
+                                    <a class="btn btn-sm btn-primary" href="/aulas">Ir</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <h5>Notificaciones push</h5>
+                                    <button class="btn btn-sm btn-primary" data-toggle="modal"
+                                            data-target="#webPushModal">Ir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Funcionalidades del padre de familia -->
+                    <div class="row" sec:authorize="hasAuthority('PADRE')">
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <h5>Lista de aulas de los alumnos a cargo</h5>
+                                    <a class="btn btn-sm btn-primary" href="/padre">Ir</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <h5>Notificaciones push</h5>
+                                    <button class="btn btn-sm btn-primary" data-toggle="modal"
+                                            data-target="#webPushModal">Ir</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- Fin del contenido de la página -->
@@ -29,7 +94,14 @@
     </div>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    <!-- Modal de notificaciones push -->
+    <div th:replace="usuario/inicio/webpush :: webPushModal"></div>
     <!-- Scripts de JavaScript -->
     <script src="/js/vendor/sb-admin-2.min.js"></script>
+    <script src="/js/utilidades.js"></script>
+    <script src="/js/usuario/inicio.js"></script>
+    <script th:inline="javascript">
+        var vapidKey = /*[[${vapidKey}]]*/ '';
+    </script>
 </body>
 </html>

@@ -1,7 +1,6 @@
 package com.colegio.alertas.service;
 
 import com.colegio.alertas.dto.AlumnoDto;
-import com.colegio.alertas.dto.BusquedaAulaDto;
 import com.colegio.alertas.dto.BusquedaDto;
 import com.colegio.alertas.entity.Alumno;
 import com.colegio.alertas.entity.Usuario;
@@ -9,6 +8,7 @@ import com.colegio.alertas.repository.AlumnoRepository;
 import com.colegio.alertas.repository.UsuarioRepository;
 import com.colegio.alertas.util.AppException;
 import com.colegio.alertas.util.DateUtils;
+import com.colegio.alertas.util.DtoUtils;
 import com.colegio.alertas.util.Preconditions;
 import com.colegio.alertas.util.QueryUtils;
 import java.util.ArrayList;
@@ -117,7 +117,7 @@ public class AlumnoService {
         dto.setFechaNacimiento(DateUtils.format(alumno.getFechaNacimiento()));
         Usuario padre = alumno.getPadre();
         dto.setNombreUsuarioPadre(padre.getNombreUsuario());
-        dto.setNombreCompletoPadre(padre.getNombres() + " " + padre.getApellidos());
+        dto.setNombreCompletoPadre(DtoUtils.obtenerNombreCompleto(padre));
         return dto;
     }
 

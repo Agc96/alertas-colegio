@@ -11,9 +11,10 @@ import com.colegio.alertas.repository.AulaRepository;
 import com.colegio.alertas.repository.EntrevistaRepository;
 import com.colegio.alertas.util.AppException;
 import com.colegio.alertas.util.DateUtils;
-import com.colegio.alertas.util.HtmlUtils;
+import com.colegio.alertas.util.DtoUtils;
 import com.colegio.alertas.util.Preconditions;
 import com.colegio.alertas.util.QueryUtils;
+import com.colegio.alertas.util.enums.TipoWebPush;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -23,7 +24,7 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 @Service
 public class EntrevistaService {
@@ -36,6 +37,9 @@ public class EntrevistaService {
 
     @Autowired
     private AlumnoRepository alumnoRepository;
+
+    @Autowired
+    private WebPushService webPushService;
 
     public Integer contarPadre(BusquedaAulaDto busqueda) {
         return entrevistaRepository.contarPadre(busqueda.getIdAula(),
@@ -52,7 +56,7 @@ public class EntrevistaService {
                 dto.setIdEntrevista(entrevista.getIdEntrevista());
                 dto.setFecha(DateUtils.format(entrevista.getFecha()));
                 dto.setMotivo(entrevista.getMotivo());
-                dto.setMotivoHtml(HtmlUtils.escape(entrevista.getMotivo()));
+                dto.setMotivoHtml(DtoUtils.escapeHtml(entrevista.getMotivo()));
                 listaDto.add(dto);
             }
             return listaDto;
@@ -96,6 +100,10 @@ public class EntrevistaService {
         entrevista.setMotivo(motivo);
         // Guardar la entrevista en la base de datos
         entrevistaRepository.save(entrevista);
+        // Enviar una notificación push
+        if (idEntrevista == null) {
+            webPushService.notificar(aula.getDocente(), TipoWebPush.ENTREVISTA, alumno);
+        }
     }
 
     public void eliminar(Integer idEntrevista) throws AppException {
@@ -121,16 +129,14 @@ public class EntrevistaService {
                 Alumno alumno = entrevista.getAlumno();
                 dto.setIdAlumno(alumno.getIdAlumno());
                 dto.setDniAlumno(alumno.getDni());
-                dto.setNombresAlumno(alumno.getNombres());
-                dto.setApellidosAlumno(alumno.getApellidos());
+                dto.setNombreCompletoAlumno(DtoUtils.obtenerNombreCompleto(alumno));
                 Usuario padre = alumno.getPadre();
                 dto.setNombreUsuarioPadre(padre.getNombreUsuario());
-                dto.setNombresPadre(padre.getNombres());
-                dto.setApellidosPadre(padre.getApellidos());
+                dto.setNombreCompletoPadre(DtoUtils.obtenerNombreCompleto(padre));
                 dto.setIdAula(entrevista.getAula().getIdAula());
                 dto.setFecha(DateUtils.format(entrevista.getFecha()));
                 dto.setMotivo(entrevista.getMotivo());
-                dto.setMotivoHtml(HtmlUtils.escape(entrevista.getMotivo()));
+                dto.setMotivoHtml(DtoUtils.escapeHtml(entrevista.getMotivo()));
                 listaDto.add(dto);
             }
             return listaDto;

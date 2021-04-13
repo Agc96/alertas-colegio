@@ -29,7 +29,7 @@ public final class SecurityUtils {
         return user == null ? null : user.getUsername();
     }
 
-    public static boolean hasRole(Rol rol) {
+    public static boolean hasAuthority(Rol rol) {
         Collection<? extends GrantedAuthority> roles = getCurrentUser().getAuthorities();
         if (!Preconditions.isEmpty(roles)) {
             for (GrantedAuthority authority : roles) {

@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author Sistema de Alertas
  */
 @Controller
-public class LoginController {
+public class CommonController {
 
-    private static final Logger LOG = Logger.getLogger(LoginController.class.getName());
+    private static final Logger LOG = Logger.getLogger(CommonController.class.getName());
+
+    @Value("${webpush.public}")
+    private String vapidKey;
 
     @GetMapping("/login")
     public String login(Model model, HttpServletRequest request) {
@@ -37,14 +41,10 @@ public class LoginController {
         return "usuario/login";
     }
 
-    @GetMapping("/perfil")
-    public String perfil() {
-        return "usuario/perfil";
-    }
-
-    @GetMapping("/contrasenia")
-    public String contrasenia() {
-        return "usuario/contrasenia";
+    @GetMapping("/")
+    public String perfil(Model model) {
+        model.addAttribute("vapidKey", vapidKey);
+        return "index";
     }
 
 }

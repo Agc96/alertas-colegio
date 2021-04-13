@@ -16,6 +16,7 @@ import com.colegio.alertas.repository.AulaRepository;
 import com.colegio.alertas.repository.GradoRepository;
 import com.colegio.alertas.repository.UsuarioRepository;
 import com.colegio.alertas.util.AppException;
+import com.colegio.alertas.util.DtoUtils;
 import com.colegio.alertas.util.Preconditions;
 import com.colegio.alertas.util.QueryUtils;
 import com.colegio.alertas.util.SecurityUtils;
@@ -108,7 +109,7 @@ public class AulaService {
         // Colocar datos del docente
         Usuario docente = aula.getDocente();
         dto.setNombreUsuarioDocente(docente.getNombreUsuario());
-        dto.setNombreCompletoDocente(docente.getNombres() + " " + docente.getApellidos());
+        dto.setNombreCompletoDocente(DtoUtils.obtenerNombreCompleto(docente));
         return dto;
     }
 

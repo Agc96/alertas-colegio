@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 @Controller
 public class EntrevistaController {

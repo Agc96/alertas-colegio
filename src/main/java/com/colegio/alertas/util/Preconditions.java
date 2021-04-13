@@ -2,6 +2,7 @@ package com.colegio.alertas.util;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  *
@@ -31,6 +32,24 @@ public final class Preconditions {
 
     public static boolean isValidDni(String dni) {
         return !isEmpty(dni) && dni.matches("\\d+") && dni.length() == 8;
+    }
+
+    public static String checkNotEmpty(String text, String message) throws AppException {
+        if (isEmpty(text))
+            throw new AppException(message);
+        return text;
+    }
+
+    public static <T> T checkNotNull(T object, String message) throws AppException {
+        if (object == null)
+            throw new AppException(message);
+        return object;
+    }
+
+    public static <T> T checkNotNull(Optional<T> object, String message) throws AppException {
+        if (object == null || !object.isPresent())
+            throw new AppException(message);
+        return object.get();
     }
 
 }

@@ -5,14 +5,16 @@ import com.colegio.alertas.dto.IncidenciaDto;
 import com.colegio.alertas.entity.Alumno;
 import com.colegio.alertas.entity.Aula;
 import com.colegio.alertas.entity.Incidencia;
+import com.colegio.alertas.entity.Usuario;
 import com.colegio.alertas.repository.AlumnoRepository;
 import com.colegio.alertas.repository.AulaRepository;
 import com.colegio.alertas.repository.IncidenciaRepository;
 import com.colegio.alertas.util.AppException;
 import com.colegio.alertas.util.DateUtils;
-import com.colegio.alertas.util.HtmlUtils;
+import com.colegio.alertas.util.DtoUtils;
 import com.colegio.alertas.util.Preconditions;
 import com.colegio.alertas.util.QueryUtils;
+import com.colegio.alertas.util.enums.TipoWebPush;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -35,6 +37,9 @@ public class IncidenciaService {
 
     @Autowired
     private AlumnoRepository alumnoRepository;
+
+    @Autowired
+    private WebPushService webPushService;
 
     public Integer contar(BusquedaAulaDto busqueda) {
         return incidenciaRepository.contar(busqueda.getIdAula(), busqueda.getTermino());
@@ -59,7 +64,7 @@ public class IncidenciaService {
                 dto.setNombresAlumno(alumno.getNombres());
                 dto.setApellidosAlumno(alumno.getApellidos());
                 dto.setDescripcion(incidencia.getDescripcion());
-                dto.setDescripcionHtml(HtmlUtils.escape(incidencia.getDescripcion()));
+                dto.setDescripcionHtml(DtoUtils.escapeHtml(incidencia.getDescripcion()));
                 listaDto.add(dto);
             }
             return listaDto;
@@ -103,6 +108,10 @@ public class IncidenciaService {
         incidencia.setDescripcion(descripcion);
         // Guardar la incidencia en la base de datos
         incidenciaRepository.save(incidencia);
+        // Enviar notificación push
+        if (idIncidencia == null) {
+            webPushService.notificar(alumno.getPadre(), TipoWebPush.INCIDENCIA, alumno);
+        }
     }
 
     public void eliminar(Integer idIncidencia) throws AppException {

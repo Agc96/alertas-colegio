@@ -2,7 +2,7 @@ package com.colegio.alertas.dto;
 
 /**
  *
- * @author Anthony Gutiérrez
+ * @author Sistema de Alertas
  */
 public class EntrevistaDto extends BaseDto {
 
@@ -11,11 +11,9 @@ public class EntrevistaDto extends BaseDto {
     private Integer idEntrevista;
     private Integer idAlumno;
     private String dniAlumno;
-    private String nombresAlumno;
-    private String apellidosAlumno;
+    private String nombreCompletoAlumno;
     private String nombreUsuarioPadre;
-    private String nombresPadre;
-    private String apellidosPadre;
+    private String nombreCompletoPadre;
     private Integer idAula;
     private String fecha;
     private String motivo;
@@ -42,18 +40,11 @@ public class EntrevistaDto extends BaseDto {
         this.dniAlumno = dniAlumno;
     }
 
-    public String getNombresAlumno() {
-        return nombresAlumno;
+    public String getNombreCompletoAlumno() {
+        return nombreCompletoAlumno;
     }
-    public void setNombresAlumno(String nombresAlumno) {
-        this.nombresAlumno = nombresAlumno;
-    }
-
-    public String getApellidosAlumno() {
-        return apellidosAlumno;
-    }
-    public void setApellidosAlumno(String apellidosAlumno) {
-        this.apellidosAlumno = apellidosAlumno;
+    public void setNombreCompletoAlumno(String nombreCompletoAlumno) {
+        this.nombreCompletoAlumno = nombreCompletoAlumno;
     }
 
     public String getNombreUsuarioPadre() {
@@ -63,18 +54,12 @@ public class EntrevistaDto extends BaseDto {
         this.nombreUsuarioPadre = nombreUsuarioPadre;
     }
 
-    public String getNombresPadre() {
-        return nombresPadre;
-    }
-    public void setNombresPadre(String nombresPadre) {
-        this.nombresPadre = nombresPadre;
+    public String getNombreCompletoPadre() {
+        return nombreCompletoPadre;
     }
 
-    public String getApellidosPadre() {
-        return apellidosPadre;
-    }
-    public void setApellidosPadre(String apellidosPadre) {
-        this.apellidosPadre = apellidosPadre;
+    public void setNombreCompletoPadre(String nombreCompletoPadre) {
+        this.nombreCompletoPadre = nombreCompletoPadre;
     }
 
     public Integer getIdAula() {

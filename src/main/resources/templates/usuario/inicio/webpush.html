@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sistema de Alertas</title>
+</head>
+<body>
+    <div class="modal fade" id="webPushModal" tabindex="-1" role="dialog" aria-labelledby="webPushLabel" aria-hidden="true" th:fragment="webPushModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="webPushLabel">Información sobre las notificaciones push</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div id="webPushDisponible">
+                        <p sec:authorize="hasAuthority('DOCENTE')">El Sistema de Alertas puede enviarle notificaciones "push" directamente a su celular. Esto le permitirá ser notificado apenas un padre de familia requiera una entrevista con usted.</p>
+                        <p sec:authorize="hasAuthority('PADRE')">El Sistema de Alertas puede enviarle notificaciones "push" directamente a su celular. Esto le permitirá ser notificado apenas un docente mande un comunicado para usted, o registre una incidencia que haya hecho su menor hijo.</p>
+                        <p>Tenga en cuenta lo siguiente:</p>
+                        <ul>
+                            <li>El servicio de notificaciones no funcionará si el sitio Web se está abriendo desde una pestaña de incógnito.</li>
+                            <li>Si usted decide denegar el permiso al servicio de notificaciones y desea permitirlo luego, deberá ir manualmente a la configuración de su navegador (Google Chrome, Firefox, Edge, etc.) y quitar el bloqueo de notificaciones a este sitio Web.</li>
+                        </ul>
+                    </div>
+                    <div id="webPushError" class="d-none"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" id="webPushButton">Activar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

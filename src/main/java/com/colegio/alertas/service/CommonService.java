@@ -4,6 +4,7 @@ import com.colegio.alertas.dto.AlumnoDto;
 import com.colegio.alertas.dto.AulaDto;
 import com.colegio.alertas.entity.Anio;
 import com.colegio.alertas.entity.Grado;
+import com.colegio.alertas.entity.Usuario;
 import com.colegio.alertas.repository.AnioRepository;
 import com.colegio.alertas.repository.GradoRepository;
 import com.colegio.alertas.util.SecurityUtils;

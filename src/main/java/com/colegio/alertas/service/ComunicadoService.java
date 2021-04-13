@@ -2,16 +2,18 @@ package com.colegio.alertas.service;
 
 import com.colegio.alertas.dto.BusquedaAulaDto;
 import com.colegio.alertas.dto.ComunicadoDto;
+import com.colegio.alertas.entity.Alumno;
 import com.colegio.alertas.entity.Aula;
 import com.colegio.alertas.entity.Comunicado;
+import com.colegio.alertas.repository.AlumnoRepository;
 import com.colegio.alertas.repository.AulaRepository;
 import com.colegio.alertas.repository.ComunicadoRepository;
 import com.colegio.alertas.util.AppException;
 import com.colegio.alertas.util.DateUtils;
-import com.colegio.alertas.util.HtmlUtils;
+import com.colegio.alertas.util.DtoUtils;
 import com.colegio.alertas.util.Preconditions;
 import com.colegio.alertas.util.QueryUtils;
-import com.colegio.alertas.util.enums.EstadoAsistencia;
+import com.colegio.alertas.util.enums.TipoWebPush;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -32,6 +34,12 @@ public class ComunicadoService {
     @Autowired
     private AulaRepository aulaRepository;
 
+    @Autowired
+    private AlumnoRepository alumnoRepository;
+
+    @Autowired
+    private WebPushService webPushService;
+
     public Integer contar(BusquedaAulaDto busqueda) {
         return comunicadoRepository.contar(busqueda.getIdAula(), busqueda.getTermino());
     }
@@ -48,7 +56,7 @@ public class ComunicadoService {
                 dto.setTitulo(comunicado.getTitulo());
                 dto.setFecha(DateUtils.format(comunicado.getFecha()));
                 dto.setDescripcion(comunicado.getDescripcion());
-                dto.setDescripcionHtml(HtmlUtils.escape(comunicado.getDescripcion()));
+                dto.setDescripcionHtml(DtoUtils.escapeHtml(comunicado.getDescripcion()));
                 listaDto.add(dto);
             }
             return listaDto;
@@ -92,6 +100,14 @@ public class ComunicadoService {
         comunicado.setDescripcion(descripcion);
         // Guardar el comunicado en la base de datos
         comunicadoRepository.save(comunicado);
+        // Enviar notificaciones push
+        List<Object[]> alumnos = aulaRepository.listarAlumnos(aula.getIdAula());
+        if (!Preconditions.isEmpty(alumnos)) {
+            for (Object[] info : alumnos) {
+                Alumno alumno = alumnoRepository.findByIdAlumno(QueryUtils.toInteger(info[0]));
+                webPushService.notificar(alumno.getPadre(), TipoWebPush.COMUNICADO, aula);
+            }
+        }
     }
 
     public void eliminar(Integer idComunicado) throws AppException {
