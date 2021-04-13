@@ -2,7 +2,6 @@ package com.colegio.alertas.entity;
 
 import com.colegio.alertas.util.enums.Rol;
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
