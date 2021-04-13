@@ -152,6 +152,11 @@ public class AulaService {
             if (alumno == null) {
                 throw new AppException("El alumno con el ID " + idAlumno + " no existe.");
             }
+            Integer count = aulaRepository.contarAlumnoYaEnAula(idAlumno, dto.getIdAnio());
+            if (count != null && count > 0) {
+                throw new AppException("El alumno " + DtoUtils.obtenerNombreCompleto(alumno)
+                        + " ya está registrado en otra aula para este año.");
+            }
             alumnos.add(alumno);
         }
         aula.setAlumnos(alumnos);

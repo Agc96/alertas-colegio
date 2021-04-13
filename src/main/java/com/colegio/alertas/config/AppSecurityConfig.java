@@ -44,7 +44,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasAuthority(Rol.ADMIN.toString())
                 .antMatchers("/docente/**", "/aulas/**").hasAuthority(Rol.DOCENTE.toString())
                 .antMatchers("/padre/**").hasAuthority(Rol.PADRE.toString())
-                .antMatchers("/css/**", "/fonts/**", "/img/**", "/js/**", "/login").permitAll()
+                .antMatchers("/css/**", "/fonts/**", "/img/**", "/js/**", "/login", "/*.js").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").loginProcessingUrl("/springLogin").defaultSuccessUrl("/")
