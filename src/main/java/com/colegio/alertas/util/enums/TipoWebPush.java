@@ -7,11 +7,11 @@ package com.colegio.alertas.util.enums;
 public enum TipoWebPush {
 
     COMUNICADO("sistema-alertas-comunicado", "Nuevo comunicado registrado",
-            "Estimado %s: el profesor %s ha enviado un comunicado al aula de %s del año %s."),
+            "Estimado(a) %s: el profesor %s ha enviado un comunicado al aula de %s del año %s."),
     INCIDENCIA("sistema-alertas-incidencia", "Nueva incidencia registrada",
-            "Estimado %s: el profesor %s ha registrado una incidencia cometida por su menor hijo %s."),
+            "Estimado(a) %s: el profesor %s ha registrado una incidencia cometida por su menor hijo %s."),
     ENTREVISTA("sistema-alertas-entrevista", "Nueva entrevista registrada",
-            "Estimado %s: el padre de familia %s, del alumno %s, le ha solicitado una entrevista.");
+            "Estimado(a) %s: el padre de familia %s, del alumno %s, le ha solicitado una entrevista.");
 
     private final String tag;
     private final String titulo;

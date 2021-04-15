@@ -20,7 +20,7 @@
                     <h1 class="h3 mb-4 text-gray-800">Página principal</h1>
                     <!-- Botones del administrador -->
                     <div class="row" sec:authorize="hasAuthority('ADMIN')">
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-xl-4 col-md-6">
                             <div class="card">
                                 <div class="card-body text-center">
                                     <h5>Mantenimiento de usuarios</h5>
@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-xl-4 col-md-6 mt-md-0 mt-3">
                             <div class="card">
                                 <div class="card-body text-center">
                                     <h5>Mantenimiento de alumnos</h5>
@@ -36,7 +36,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-md-3 d-xl-none"></div>
+                        <div class="col-xl-4 col-md-6 mt-xl-0 mt-3">
                             <div class="card">
                                 <div class="card-body text-center">
                                     <h5>Asignación de aulas</h5>
@@ -47,7 +48,8 @@
                     </div>
                     <!-- Funcionalidades del docente -->
                     <div class="row" sec:authorize="hasAuthority('DOCENTE')">
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-xl-2"></div>
+                        <div class="col-xl-4 col-md-6">
                             <div class="card">
                                 <div class="card-body text-center">
                                     <h5>Lista de aulas asignadas</h5>
@@ -55,7 +57,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-xl-4 col-md-6 mt-md-0 mt-3">
                             <div class="card">
                                 <div class="card-body text-center">
                                     <h5>Notificaciones push</h5>
@@ -67,15 +69,16 @@
                     </div>
                     <!-- Funcionalidades del padre de familia -->
                     <div class="row" sec:authorize="hasAuthority('PADRE')">
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-xl-2"></div>
+                        <div class="col-xl-4 col-md-6">
                             <div class="card">
                                 <div class="card-body text-center">
-                                    <h5>Lista de aulas de los alumnos a cargo</h5>
+                                    <h5>Lista de aulas de los alumnos</h5>
                                     <a class="btn btn-sm btn-primary" href="/padre">Ir</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-xl-4 col-md-6 mt-md-0 mt-3">
                             <div class="card">
                                 <div class="card-body text-center">
                                     <h5>Notificaciones push</h5>

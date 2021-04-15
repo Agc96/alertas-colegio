@@ -90,9 +90,11 @@ public class UsuarioController {
         try {
             usuarioService.eliminar(nombreUsuario);
         } catch (AppException ex) {
-            String msg = "No se pudo eliminar el usuario. " + ex.getMessage();
-            LOG.log(Level.SEVERE, msg, ex);
-            response.setError(true, msg);
+            LOG.log(Level.SEVERE, "No se pudo eliminar el usuario.", ex);
+            response.setError(true, "No se pudo eliminar el usuario. Asegúrese "
+                    + "de que el nombre de usuario existe y que los datos no "
+                    + "estén siendo usados por otros elementos del sistema de "
+                    + "alertas (alumnos, aulas, etc).");
         }
         return response;
     }

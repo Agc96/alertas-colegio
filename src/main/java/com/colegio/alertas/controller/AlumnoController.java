@@ -79,9 +79,11 @@ public class AlumnoController {
         try {
             alumnoService.eliminar(idAlumno);
         } catch (AppException ex) {
-            String msg = "No se pudo eliminar el alumno. " + ex.getMessage();
-            LOG.log(Level.SEVERE, msg, ex);
-            response.setError(true, msg);
+            LOG.log(Level.SEVERE, "No se pudo eliminar el alumno.", ex);
+            response.setError(true, "No se pudo eliminar el alumno. Asegúrese "
+                    + "de que el ID del alumno existe, y que los datos no "
+                    + "estén siendo usados por otros elementos del sistema de "
+                    + "alertas (aulas, incidencias, entrevistas, etc).");
         }
         return response;
     }

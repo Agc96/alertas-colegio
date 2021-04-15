@@ -98,7 +98,7 @@ CREATE TABLE sa_entrevista(
 -- Notificaciones push
 
 CREATE TABLE sa_suscripcion(
-	endpoint varchar(255) PRIMARY KEY,
+	endpoint varchar(500) PRIMARY KEY,
 	public_key varchar(255) NOT NULL,
 	auth varchar(255) NOT NULL,
 	nombre_usuario varchar(255) NOT NULL FOREIGN KEY REFERENCES sa_usuario(nombre_usuario)

@@ -118,9 +118,11 @@ public class AulaController {
         try {
             aulaService.eliminar(idAula);
         } catch (AppException ex) {
-            String msg = "No se pudo eliminar el aula. " + ex.getMessage();
-            LOG.log(Level.WARNING, msg, ex);
-            response.setError(true, msg);
+            LOG.log(Level.WARNING, "No se pudo eliminar el aula.", ex);
+            response.setError(true, "No se pudo eliminar el aula. Asegúrese "
+                    + "de que el ID del aula existe, y que los datos no estén "
+                    + "siendo usados por otros elementos del sistema de "
+                    + "alertas (comunicados, incidencias, entrevistas, etc).");
         }
         return response;
     }

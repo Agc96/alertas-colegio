@@ -21,7 +21,6 @@ public enum EstadoAsistencia {
     public int getId() {
         return id;
     }
-
     public String getNombre() {
         return nombre;
     }
