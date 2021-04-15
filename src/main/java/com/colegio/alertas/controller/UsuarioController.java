@@ -89,12 +89,11 @@ public class UsuarioController {
         BaseDto response = new BaseDto();
         try {
             usuarioService.eliminar(nombreUsuario);
-        } catch (AppException ex) {
+        } catch (Exception ex) {
             LOG.log(Level.SEVERE, "No se pudo eliminar el usuario.", ex);
             response.setError(true, "No se pudo eliminar el usuario. Asegúrese "
-                    + "de que el nombre de usuario existe y que los datos no "
-                    + "estén siendo usados por otros elementos del sistema de "
-                    + "alertas (alumnos, aulas, etc).");
+                    + "de que el usuario existe y de que no haya sido incluido "
+                    + "en alumnos, aulas, etc.");
         }
         return response;
     }

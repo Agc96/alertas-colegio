@@ -78,12 +78,11 @@ public class AlumnoController {
         BaseDto response = new BaseDto();
         try {
             alumnoService.eliminar(idAlumno);
-        } catch (AppException ex) {
+        } catch (Exception ex) {
             LOG.log(Level.SEVERE, "No se pudo eliminar el alumno.", ex);
             response.setError(true, "No se pudo eliminar el alumno. Asegúrese "
-                    + "de que el ID del alumno existe, y que los datos no "
-                    + "estén siendo usados por otros elementos del sistema de "
-                    + "alertas (aulas, incidencias, entrevistas, etc).");
+                    + "de que el alumno existe, y de que no haya sido incluido "
+                    + "en aulas, incidencias, entrevistas, etc.");
         }
         return response;
     }

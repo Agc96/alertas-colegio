@@ -120,9 +120,8 @@ public class AulaController {
         } catch (AppException ex) {
             LOG.log(Level.WARNING, "No se pudo eliminar el aula.", ex);
             response.setError(true, "No se pudo eliminar el aula. Asegúrese "
-                    + "de que el ID del aula existe, y que los datos no estén "
-                    + "siendo usados por otros elementos del sistema de "
-                    + "alertas (comunicados, incidencias, entrevistas, etc).");
+                    + "de que el aula existe, y de que no haya sido incluido "
+                    + "en comunicados, incidencias, entrevistas, etc.");
         }
         return response;
     }
