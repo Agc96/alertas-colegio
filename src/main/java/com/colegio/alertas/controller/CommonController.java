@@ -44,7 +44,7 @@ public class CommonController {
     @GetMapping("/")
     public String perfil(Model model) {
         model.addAttribute("vapidKey", vapidKey);
-        return "index";
+        return "usuario/inicio/menu";
     }
 
 }

@@ -11,7 +11,7 @@ public enum TipoWebPush {
     INCIDENCIA("sistema-alertas-incidencia", "Nueva incidencia registrada",
             "Estimado %s: el profesor %s ha registrado una incidencia cometida por su menor hijo %s."),
     ENTREVISTA("sistema-alertas-entrevista", "Nueva entrevista registrada",
-            "Estimado %s: el padre de familia %s de su alumno %s le ha solicitado una entrevista.");
+            "Estimado %s: el padre de familia %s, del alumno %s, le ha solicitado una entrevista.");
 
     private final String tag;
     private final String titulo;

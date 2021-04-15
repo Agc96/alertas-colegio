@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import nl.martijndwars.webpush.Notification;
-import nl.martijndwars.webpush.PushService;
+import nl.martijndwars.webpush.PushAsyncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -52,12 +52,12 @@ public class WebPushService {
     @Autowired
     private AlumnoRepository alumnoRepository;
 
-    private PushService pushService;
+    private PushAsyncService pushService;
 
-    private PushService getPushService() throws AppException {
+    private PushAsyncService getPushService() throws AppException {
         if (pushService == null) {
             try {
-                pushService = new PushService(publicKey, privateKey);
+                pushService = new PushAsyncService(publicKey, privateKey);
             } catch (GeneralSecurityException ex) {
                 String msg = "Hubo un error al iniciar el servicio de notificaciones push.";
                 LOG.log(Level.SEVERE, msg + " " + ex.getMessage(), ex);
