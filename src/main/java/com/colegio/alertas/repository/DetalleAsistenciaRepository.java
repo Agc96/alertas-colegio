@@ -21,13 +21,16 @@ public interface DetalleAsistenciaRepository extends JpaRepository<DetalleAsiste
     @Query("SELECT d FROM DetalleAsistencia d WHERE d.asistencia.idAsistencia = :idAsistencia")
     List<DetalleAsistencia> listar(@Param("idAsistencia") Integer idAsistencia);
 
-    @Query("SELECT COUNT(da) FROM DetalleAsistencia da WHERE da.estadoAsistencia = :estado")
-    Integer contarPorEstado(@Param("estado") EstadoAsistencia estado);
+    @Query("SELECT COUNT(da) FROM DetalleAsistencia da "
+            + "WHERE da.asistencia.idAsistencia = :idAsistencia "
+            + "  AND da.estadoAsistencia = :estado")
+    Integer contarPorEstado(@Param("idAsistencia") Integer idAsistencia,
+            @Param("estado") EstadoAsistencia estado);
 
     @Query("SELECT COUNT(da) FROM DetalleAsistencia da "
             + "WHERE da.asistencia.aula.idAula = :idAula "
-            + "AND da.alumno.idAlumno = :idAlumno "
-            + "AND da.asistencia.fecha LIKE CONCAT('%', :termino, '%')")
+            + "  AND da.alumno.idAlumno = :idAlumno "
+            + "  AND da.asistencia.fecha LIKE CONCAT('%', :termino, '%')")
     Integer contarPadre(
             @Param("idAula") Integer idAula,
             @Param("idAlumno") Integer idAlumno,

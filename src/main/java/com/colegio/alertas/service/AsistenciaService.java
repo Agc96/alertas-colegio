@@ -59,14 +59,18 @@ public class AsistenciaService {
                 dto.setIdAsistencia(asistencia.getIdAsistencia());
                 dto.setIdAula(asistencia.getAula().getIdAula());
                 dto.setFecha(DateUtils.format(asistencia.getFecha()));
-                dto.setNumAsistentes(detalleAsistenciaRepository.contarPorEstado(EstadoAsistencia.ASISTENTE));
-                dto.setNumFaltos(detalleAsistenciaRepository.contarPorEstado(EstadoAsistencia.FALTA));
-                dto.setNumJustificados(detalleAsistenciaRepository.contarPorEstado(EstadoAsistencia.JUSTIFICADO));
+                dto.setNumAsistentes(contarPorEstado(asistencia, EstadoAsistencia.ASISTENTE));
+                dto.setNumFaltos(contarPorEstado(asistencia, EstadoAsistencia.FALTA));
+                dto.setNumJustificados(contarPorEstado(asistencia, EstadoAsistencia.JUSTIFICADO));
                 listaDto.add(dto);
             }
             return listaDto;
         }
         return Collections.emptyList();
+    }
+
+    private Integer contarPorEstado(Asistencia asistencia, EstadoAsistencia estado) {
+        return detalleAsistenciaRepository.contarPorEstado(asistencia.getIdAsistencia(), estado);
     }
 
     public AsistenciaDto detalle(Integer idAsistencia, boolean colocarDetalles) {
