@@ -117,7 +117,7 @@ public class AulaController {
         BaseDto response = new BaseDto();
         try {
             aulaService.eliminar(idAula);
-        } catch (AppException ex) {
+        } catch (Exception ex) {
             LOG.log(Level.WARNING, "No se pudo eliminar el aula.", ex);
             response.setError(true, "No se pudo eliminar el aula. Asegúrese "
                     + "de que el aula existe, y de que no haya sido incluido "

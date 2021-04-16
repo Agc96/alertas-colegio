@@ -17,6 +17,7 @@ public class UsuarioDto implements Serializable {
     private String apellidos;
     private Integer idRol;
     private String nombreRol;
+    private Boolean puedeEditar;
 
     public String getNombreUsuario() {
         return nombreUsuario;
@@ -65,6 +66,13 @@ public class UsuarioDto implements Serializable {
     }
     public void setNombreRol(String nombreRol) {
         this.nombreRol = nombreRol;
+    }
+
+    public Boolean getPuedeEditar() {
+        return puedeEditar;
+    }
+    public void setPuedeEditar(Boolean puedeEditar) {
+        this.puedeEditar = puedeEditar;
     }
 
 }

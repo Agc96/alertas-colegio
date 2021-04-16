@@ -46,14 +46,16 @@ jQuery(function ($) {
             $('#registroNombres').val($card.find('.busquedaNombres').text());
             $('#registroApellidos').val($card.find('.busquedaApellidos').text());
             $('#registroRol').val($card.find('.busquedaRol').data('id'));
-            // Desactivar edición de nombre de usuario y contraseña
-            $('#registroNombreUsuario, #registroContrasenia').prop('disabled', true);
+            // Desactivar edición de nombre de usuario, contraseña y tipo de usuario
+            $('#registroNombreUsuario, #registroContrasenia, #registroRol').prop('disabled', true);
+            $('#registroRol option[value="1"]').prop('disabled', false);
         } else {
             // Limpiar los inputs para registrar
             $card = null;
             $('#registroModal').find('input, select').val(null);
-            // Activar edición de nombre de usuario y contraseña
-            $('#registroNombreUsuario, #registroContrasenia').prop('disabled', false);
+            // Activar edición de nombre de usuario, contraseña y tipo de usuario
+            $('#registroNombreUsuario, #registroContrasenia, #registroRol').prop('disabled', false);
+            $('#registroRol option[value="1"]').prop('disabled', true);
         }
     });
 

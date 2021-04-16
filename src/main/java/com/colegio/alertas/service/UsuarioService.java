@@ -10,6 +10,7 @@ import com.colegio.alertas.repository.UsuarioRolRepository;
 import com.colegio.alertas.util.AppException;
 import com.colegio.alertas.util.Preconditions;
 import com.colegio.alertas.util.QueryUtils;
+import com.colegio.alertas.util.SecurityUtils;
 import com.colegio.alertas.util.enums.Rol;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,6 +57,8 @@ public class UsuarioService implements UserDetailsService {
                 Rol rol = usuario.getUsuarioRol().getRol();
                 dto.setIdRol(rol.getId());
                 dto.setNombreRol(rol.getNombre());
+                // Verificar si tiene o no los permisos para editar al usuario
+                dto.setPuedeEditar(!SecurityUtils.getUsername().equals(usuario.getNombreUsuario()));
                 // Añadir DTO del usuario a la lista
                 listaDto.add(dto);
             }

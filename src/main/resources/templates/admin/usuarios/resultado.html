@@ -19,9 +19,11 @@
                         <button class="btn btn-sm btn-info actualizarRegistro" data-toggle="modal" data-target="#registroModal">
                             <i class="fas fa-edit"></i> Editar
                         </button>
+                        {{#puedeEditar}}
                         <button class="btn btn-sm btn-danger eliminarRegistro">
                             <i class="fas fa-trash"></i> Eliminar
                         </button>
+                        {{/puedeEditar}}
                     </div>
                 </div>
             </div>
