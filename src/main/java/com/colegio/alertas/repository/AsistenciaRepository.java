@@ -19,12 +19,12 @@ public interface AsistenciaRepository extends JpaRepository<Asistencia, Integer>
 
     @Query("SELECT COUNT(a) FROM Asistencia a "
             + "WHERE a.aula.idAula = :idAula "
-            + "AND a.fecha LIKE CONCAT('%', :termino, '%')")
+            + "AND FUNCTION('FORMAT', a.fecha, 'dd/MM/yyyy') LIKE CONCAT('%', :termino, '%')")
     Integer contar(@Param("idAula") Integer idAula, @Param("termino") String termino);
 
     @Query("SELECT a FROM Asistencia a "
             + "WHERE a.aula.idAula = :idAula "
-            + "AND a.fecha LIKE CONCAT('%', :termino, '%')")
+            + "AND FUNCTION('FORMAT', a.fecha, 'dd/MM/yyyy') LIKE CONCAT('%', :termino, '%')")
     List<Asistencia> buscar(@Param("idAula") Integer idAula, @Param("termino") String termino,
             Pageable pageable);
 

@@ -152,7 +152,7 @@ public class AulaService {
             if (alumno == null) {
                 throw new AppException("El alumno con el ID " + idAlumno + " no existe.");
             }
-            Integer count = aulaRepository.contarAlumnoYaEnAula(idAlumno, dto.getIdAnio());
+            Integer count = contarAlumnoYaEnAula(idAlumno, dto.getIdAnio(), idAula);
             if (count != null && count > 0) {
                 throw new AppException("El alumno " + DtoUtils.obtenerNombreCompleto(alumno)
                         + " ya está registrado en otra aula para este año.");
@@ -162,6 +162,14 @@ public class AulaService {
         aula.setAlumnos(alumnos);
         // Guardar el aula en la base de datos
         aulaRepository.save(aula);
+    }
+
+    private Integer contarAlumnoYaEnAula(Integer idAlumno, Integer idAnio, Integer idAula) {
+        if (idAula == null) {
+            return aulaRepository.verificarAlumnoAulaNueva(idAlumno, idAnio);
+        } else {
+            return aulaRepository.verificarAlumnoAulaExistente(idAlumno, idAnio, idAula);
+        }
     }
 
     public Integer contarDocente(BusquedaDto busqueda) {

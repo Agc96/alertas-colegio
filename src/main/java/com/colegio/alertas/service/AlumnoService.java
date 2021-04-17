@@ -66,6 +66,10 @@ public class AlumnoService {
         if (!Preconditions.isValidDni(dni)) {
             throw new AppException("El DNI debe tener exactamente 8 dígitos.");
         }
+        Integer count = contarDni(dni, idAlumno);
+        if (count != null && count > 0) {
+            throw new AppException("El DNI ingresado ya pertenece a otro alumno.");
+        }
         alumno.setDni(dni);
         // Validar e ingresar los nombres del alumno
         String nombres = dto.getNombres();
@@ -93,6 +97,11 @@ public class AlumnoService {
         alumno.setPadre(padre);
         // Guardar el alumno
         alumnoRepository.save(alumno);
+    }
+
+    private Integer contarDni(String dni, Integer idAlumno) {
+        return idAlumno == null ? alumnoRepository.contarDniNuevo(dni)
+                : alumnoRepository.contarDniExistente(dni, idAlumno);
     }
 
     public void eliminar(Integer idAlumno) throws AppException {

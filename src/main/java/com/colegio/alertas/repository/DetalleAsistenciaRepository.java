@@ -30,7 +30,7 @@ public interface DetalleAsistenciaRepository extends JpaRepository<DetalleAsiste
     @Query("SELECT COUNT(da) FROM DetalleAsistencia da "
             + "WHERE da.asistencia.aula.idAula = :idAula "
             + "  AND da.alumno.idAlumno = :idAlumno "
-            + "  AND da.asistencia.fecha LIKE CONCAT('%', :termino, '%')")
+            + "  AND FUNCTION('FORMAT', da.asistencia.fecha, 'dd/MM/yyyy') LIKE CONCAT('%', :termino, '%')")
     Integer contarPadre(
             @Param("idAula") Integer idAula,
             @Param("idAlumno") Integer idAlumno,
@@ -40,7 +40,7 @@ public interface DetalleAsistenciaRepository extends JpaRepository<DetalleAsiste
     @Query("SELECT da FROM DetalleAsistencia da "
             + "WHERE da.asistencia.aula.idAula = :idAula "
             + "AND da.alumno.idAlumno = :idAlumno "
-            + "AND da.asistencia.fecha LIKE CONCAT('%', :termino, '%')")
+            + "AND FUNCTION('FORMAT', da.asistencia.fecha, 'dd/MM/yyyy') LIKE CONCAT('%', :termino, '%')")
     List<DetalleAsistencia> buscarPadre(
             @Param("idAula") Integer idAula,
             @Param("idAlumno") Integer idAlumno,

@@ -18,7 +18,7 @@ public interface EntrevistaRepository extends JpaRepository<Entrevista, Integer>
     Entrevista findByIdEntrevista(Integer idEntrevista);
 
     @Query("SELECT COUNT(e) FROM Entrevista e "
-            + "WHERE (e.fecha LIKE CONCAT('%', :termino, '%') "
+            + "WHERE (FUNCTION('FORMAT', e.fecha, 'dd/MM/yyyy') LIKE CONCAT('%', :termino, '%') "
             + "    OR e.alumno.dni LIKE CONCAT('%', :termino, '%') "
             + "    OR e.alumno.nombres LIKE CONCAT('%', :termino, '%') "
             + "    OR e.alumno.apellidos LIKE CONCAT('%', :termino, '%')) "
@@ -29,7 +29,7 @@ public interface EntrevistaRepository extends JpaRepository<Entrevista, Integer>
     );
 
     @Query("SELECT e FROM Entrevista e "
-            + "WHERE (e.fecha LIKE CONCAT('%', :termino, '%') "
+            + "WHERE (FUNCTION('FORMAT', e.fecha, 'dd/MM/yyyy') LIKE CONCAT('%', :termino, '%') "
             + "    OR e.alumno.dni LIKE CONCAT('%', :termino, '%') "
             + "    OR e.alumno.nombres LIKE CONCAT('%', :termino, '%') "
             + "    OR e.alumno.apellidos LIKE CONCAT('%', :termino, '%')) "
@@ -43,7 +43,7 @@ public interface EntrevistaRepository extends JpaRepository<Entrevista, Integer>
     @Query("SELECT COUNT(e) FROM Entrevista e "
             + "WHERE e.aula.idAula = :idAula "
             + "AND e.alumno.idAlumno = :idAlumno "
-            + "AND e.fecha LIKE CONCAT('%', :termino, '%')")
+            + "AND FUNCTION('FORMAT', e.fecha, 'dd/MM/yyyy') LIKE CONCAT('%', :termino, '%')")
     Integer contarPadre(
             @Param("idAula") Integer idAula,
             @Param("idAlumno") Integer idAlumno,
@@ -53,7 +53,7 @@ public interface EntrevistaRepository extends JpaRepository<Entrevista, Integer>
     @Query("SELECT e FROM Entrevista e "
             + "WHERE e.aula.idAula = :idAula "
             + "AND e.alumno.idAlumno = :idAlumno "
-            + "AND e.fecha LIKE CONCAT('%', :termino, '%')")
+            + "AND FUNCTION('FORMAT', e.fecha, 'dd/MM/yyyy') LIKE CONCAT('%', :termino, '%')")
     List<Entrevista> buscarPadre(
             @Param("idAula") Integer idAula,
             @Param("idAlumno") Integer idAlumno,

@@ -18,7 +18,7 @@ public interface IncidenciaRepository extends JpaRepository<Incidencia, Integer>
     Incidencia findByIdIncidencia(Integer idIncidencia);
 
     @Query("SELECT COUNT(i) FROM Incidencia i "
-            + "WHERE (i.fecha LIKE CONCAT('%', :termino, '%')"
+            + "WHERE (FUNCTION('FORMAT', i.fecha, 'dd/MM/yyyy') LIKE CONCAT('%', :termino, '%')"
             + "    OR i.alumno.dni LIKE CONCAT('%', :termino, '%')"
             + "    OR i.alumno.nombres LIKE CONCAT('%', :termino, '%')"
             + "    OR i.alumno.apellidos LIKE CONCAT('%', :termino, '%'))"
@@ -26,7 +26,7 @@ public interface IncidenciaRepository extends JpaRepository<Incidencia, Integer>
     Integer contar(@Param("idAula") Integer idAula, @Param("termino") String termino);
 
     @Query("SELECT i FROM Incidencia i "
-            + "WHERE (i.fecha LIKE CONCAT('%', :termino, '%')"
+            + "WHERE (FUNCTION('FORMAT', i.fecha, 'dd/MM/yyyy') LIKE CONCAT('%', :termino, '%')"
             + "    OR i.alumno.dni LIKE CONCAT('%', :termino, '%')"
             + "    OR i.alumno.nombres LIKE CONCAT('%', :termino, '%')"
             + "    OR i.alumno.apellidos LIKE CONCAT('%', :termino, '%'))"
@@ -35,7 +35,7 @@ public interface IncidenciaRepository extends JpaRepository<Incidencia, Integer>
             @Param("termino") String termino, Pageable pageable);
 
     @Query("SELECT COUNT(i) FROM Incidencia i "
-            + "WHERE i.fecha LIKE CONCAT('%', :termino, '%') "
+            + "WHERE FUNCTION('FORMAT', i.fecha, 'dd/MM/yyyy') LIKE CONCAT('%', :termino, '%') "
             + "AND i.aula.idAula = :idAula "
             + "AND i.alumno.idAlumno = :idAlumno")
     Integer contarPadre(@Param("idAula") Integer idAula,
@@ -43,7 +43,7 @@ public interface IncidenciaRepository extends JpaRepository<Incidencia, Integer>
             @Param("termino") String termino);
 
     @Query("SELECT i FROM Incidencia i "
-            + "WHERE i.fecha LIKE CONCAT('%', :termino, '%') "
+            + "WHERE FUNCTION('FORMAT', i.fecha, 'dd/MM/yyyy') LIKE CONCAT('%', :termino, '%') "
             + "AND i.aula.idAula = :idAula "
             + "AND i.alumno.idAlumno = :idAlumno")
     List<Incidencia> buscarPadre(@Param("idAula") Integer idAula,

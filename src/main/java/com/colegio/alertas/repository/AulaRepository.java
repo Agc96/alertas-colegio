@@ -104,9 +104,17 @@ public interface AulaRepository extends JpaRepository<Aula, Integer> {
 
     @Query(value = "SELECT COUNT(*) FROM sa_aula_alumno aa "
             + "INNER JOIN sa_aula a on a.id_aula = aa.id_aula "
-            + "WHERE aa.id_alumno = :idAlumno  AND a.id_anio = :idAnio",
-            nativeQuery = true)
-    Integer contarAlumnoYaEnAula(@Param("idAlumno") Integer idAlumno,
+            + "WHERE aa.id_alumno = :idAlumno "
+            + "  AND a.id_anio = :idAnio", nativeQuery = true)
+    Integer verificarAlumnoAulaNueva(@Param("idAlumno") Integer idAlumno,
             @Param("idAnio") Integer idAnio);
+
+    @Query(value = "SELECT COUNT(*) FROM sa_aula_alumno aa "
+            + "INNER JOIN sa_aula a on a.id_aula = aa.id_aula "
+            + "WHERE aa.id_alumno = :idAlumno "
+            + "  AND aa.id_aula != :idAula "
+            + "  AND a.id_anio = :idAnio", nativeQuery = true)
+    Integer verificarAlumnoAulaExistente(@Param("idAlumno") Integer idAlumno,
+            @Param("idAnio") Integer idAnio, @Param("idAula") Integer idAula);
 
 }
