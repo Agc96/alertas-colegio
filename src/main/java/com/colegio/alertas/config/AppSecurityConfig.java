@@ -41,11 +41,11 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasAuthority(Rol.ADMIN.toString())
+                /*.antMatchers("/admin/**").hasAuthority(Rol.ADMIN.toString())
                 .antMatchers("/docente/**", "/aulas/**").hasAuthority(Rol.DOCENTE.toString())
                 .antMatchers("/padre/**").hasAuthority(Rol.PADRE.toString())
-                .antMatchers("/css/**", "/fonts/**", "/img/**", "/js/**", "/login", "/*.js").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/css/**", "/fonts/**", "/img/**", "/js/**", "/login", "/*.js").permitAll()*/
+                .anyRequest().permitAll()
                 .and()
                 .formLogin().loginPage("/login").loginProcessingUrl("/springLogin").defaultSuccessUrl("/")
                 .and()

@@ -19,7 +19,7 @@ public class Grado implements Serializable {
     private static final long serialVersionUID = -8022130146769104255L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_grado")
     private Integer idGrado;
 

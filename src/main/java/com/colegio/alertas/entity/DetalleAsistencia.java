@@ -24,7 +24,7 @@ public class DetalleAsistencia implements Serializable {
     private static final long serialVersionUID = -7479305424187242246L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_detalle_asistencia")
     private Integer idDetalleAsistencia;
 

@@ -24,7 +24,7 @@ public class Incidencia implements Serializable {
     private static final long serialVersionUID = -8353262748058630299L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer idIncidencia;
 
     @ManyToOne

@@ -24,7 +24,7 @@ public class Entrevista implements Serializable {
     private static final long serialVersionUID = -6065148195051053234L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer idEntrevista;
 
     @ManyToOne

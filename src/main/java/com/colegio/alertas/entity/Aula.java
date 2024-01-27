@@ -24,7 +24,7 @@ public class Aula implements Serializable {
     private static final long serialVersionUID = 1318429886862230436L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_aula")
     private Integer idAula;
 

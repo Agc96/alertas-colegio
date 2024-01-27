@@ -28,7 +28,7 @@ public class Asistencia implements Serializable {
     private static final long serialVersionUID = -5605679861656801953L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_asistencia")
     private Integer idAsistencia;
 

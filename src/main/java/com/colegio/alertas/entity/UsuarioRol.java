@@ -24,7 +24,7 @@ public class UsuarioRol implements Serializable {
     private static final long serialVersionUID = 1021744413952717649L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_usuario_rol")
     private Integer idUsuarioRol;
 
